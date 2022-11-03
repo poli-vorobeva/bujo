@@ -1,24 +1,25 @@
-import {AxiosResponse} from "axios";
-import axios from "axios";
+//import { AxiosResponse } from "axios";
+//import axios from "axios";
 
-export async function test():Promise<any>{
-	try{
-		const response = await fetch(
-			//'http://localhost:5000/'
-			'http://localhost:3000/'+'photos',{
-				method: 'POST',
-				headers:{
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type':  'application/json'
-				},
-				body: JSON.stringify({dd:'req - someData from client'})
-			})
-		return response
-	}catch (e) {
-		console.log(e.message)
-	}
-
-};
+export async function test(): Promise<any> {
+  try {
+    const response = await fetch(
+      //'http://localhost:5000/'
+      "http://localhost:3000/" + "photos",
+      {
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ dd: "req - someData from client" }),
+      }
+    );
+    return response;
+  } catch (e) {
+    console.log(e.message);
+  }
+}
 //
 // export function requestToServer(){
 // 	fetch('http://localhost:3000/', {
