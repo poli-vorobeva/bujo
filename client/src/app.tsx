@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import {test} from "./requestToServer";
+import {test} from "./request/requestToServer";
 import TestForm from './testform';
 
 export const App=()=>{
-	useEffect(()=>{
-		test()
-	},[]);
+	// useEffect(()=>{
+	// 	test()
+	// },[]);
 
 	return (
 	<>

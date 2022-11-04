@@ -4,6 +4,7 @@ import {json} from 'body-parser'
 // import imagesRouter from "../routes/imagesRouts";
 // import translatesRouter from "../routes/translatesRouter";
 import photosRouter from './routers/photosRouter'
+import testFormRouter from './routers/testFormRouter'
 
 //const mongoose = require('mongoose')
 //const fs = require('fs')
@@ -18,6 +19,7 @@ const bodyParser = require('body-parser');
  app.use(json())
 //app.use('/',()=>console.log("*&&*&&"))
 app.use('/photos',cors(),photosRouter)
+app.use('/auth',cors(), testFormRouter)
 
 // app.use('/api/categories',cors(), categoriesRouter);
 // app.use('/api/translates',translatesRouter);
