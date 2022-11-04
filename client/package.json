@@ -8,14 +8,18 @@
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "formik": "^2.2.9",
     "latest-version": "^7.0.0",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "stream-http": "^3.2.0",
-    "url": "^0.11.0"
+    "styled-components": "^5.3.6",
+    "url": "^0.11.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "@webpack-cli/generators": "^2.5.0",
@@ -39,7 +43,8 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "lint": "npx eslint --fix ./src"
   },
   "eslintConfig": {
     "extends": [
