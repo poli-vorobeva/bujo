@@ -1,4 +1,4 @@
-import {reg, auth} from './actions';
+import {reg, auth} from './slice';
 import { useSelector, useDispatch } from "react-redux";
 import {IUser} from './reducer';
 import React, { useState } from 'react';
@@ -18,13 +18,10 @@ const TestForm = () => {
         changePassword('');
         requestAuth(name, password).then(res=>res.json())
         .then(data=>{
-            console.log(data)
             if(data.status==='ok'){
-                console.log(1)
-                dispatch(reg(data.name, data.password));
+                dispatch(reg({name: data.name, password:data.password}));
             }else{
-                console.log(2)
-                dispatch(reg('false', 'false'));
+                dispatch(reg({name:'false', password:'false'}));
             }
         })
     }

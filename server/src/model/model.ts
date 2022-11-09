@@ -1,4 +1,4 @@
-import { Module } from "module";
+
 import auth from '../fakeData/auth';
 
 export default class Model {
