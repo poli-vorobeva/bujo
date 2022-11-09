@@ -1,17 +1,6 @@
-import React, {useEffect} from "react";
-import {test} from "./request/requestToServer";
-import TestForm from './testform';
+import React, { useEffect } from "react";
+import RegForm from "./components/RegForm";
 
-export const App=()=>{
-	// useEffect(()=>{
-	// 	test()
-	// },[]);
-
-	return (
-	<>
-		<h1>При вет, GfffGG</h1>
-		<TestForm/>
-	</>
-		
-	)
-}
+export const App = () => {
+  return <RegForm />;
+};
