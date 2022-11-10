@@ -6,23 +6,28 @@ import {
 	drawXAxis,
 	drawYAxis,
 	getXAxisData,
-	getYAxisData,
-	sortDefault, verticalLine
+	getYAxisData, horizontalLine,
+	sortDefault, text, verticalLine
 } from "./canvasFunctions";
+import ChooseDateComponent, {chooseDateComponent} from "../ui/chooseDateComponent";
 
 const CanvasChart = (props: any) => {
 	const [xPointToDrawData, setXPointsToDrawData] = useState(null)
 	const [yPointToDrawData, setYPointsToDrawData] = useState(null)
 
 	const xStepsData = getXAxisData(barRangeData, 'day')//from data
-	const yStepsData = sortDefault(getYAxisData(barRangeData, 'time'))
-
+	const yStepsData = [18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].reverse()//sortDefault(getYAxisData(barRangeData, 'time'))
 	const canvasRef = useRef(null)
 	const canvasCtxRef = useRef(null)
 	const [startX, setStartX] = useState(0)
 	const [startY, setStartY] = useState(0)
 	const [xAxisPoints, setXAxisPoints] = useState([])
 	const [yAxisPoints, setYAxisPoints] = useState([])
+	const [newDayData,setNewDayData]=useState(null)
+	const [addDateData, setAddData] = useState(false)
+	const [addDataDates, setAddDataDates] = useState([])
+	const [editDateDates, setEditDataDates] = useState([])
+	const [editDateData, setEditData] = useState(false)
 	const drawBar = (xCoord: number, yCoords: number[]) => {
 		drawCircle(canvasCtxRef.current, xCoord, yCoords[0], 2)
 		drawCircle(canvasCtxRef.current, xCoord, yCoords[1], 2)
@@ -31,25 +36,20 @@ const CanvasChart = (props: any) => {
 	const drawXAxisData = () => {
 		const xData = new Map()
 		xAxisPoints.forEach((p, i) => {
-			canvasCtxRef.current.moveTo(startX + p, startY)
-			canvasCtxRef.current.lineTo(startX + p, startY - 10)
-			canvasCtxRef.current.stroke();
-			canvasCtxRef.current.fillStyle = 'gray';//text
-			canvasCtxRef.current.fillText(xStepsData[i], startX + p, startY + 20)
+			verticalLine(canvasCtxRef.current, startX + p, startY, startY - 5)
+			text(canvasCtxRef.current, xStepsData[i], startX + p, startY + 20)
 			xData.set(xStepsData[i], startX + p)
 		})
 		setXPointsToDrawData(xData)
 	}
+
 	const drawYAxisData = () => {
 		const reverseSteps = yAxisPoints.slice().reverse()
 		const topYOffset = canvasRef.current.height * 0.1
 		const yData = new Map()
 		reverseSteps.forEach((p, i) => {
-			canvasCtxRef.current.moveTo(startX, p + topYOffset)
-			canvasCtxRef.current.lineTo(startX + 10, p + topYOffset)
-			canvasCtxRef.current.stroke();
-			canvasCtxRef.current.fillStyle = 'gray';//text
-			canvasCtxRef.current.fillText('' + yStepsData[i], startX - 20, p + topYOffset)
+			horizontalLine(canvasCtxRef.current, startX, startX + 5, p + topYOffset)
+			text(canvasCtxRef.current, '' + yStepsData[i], startX - 20, p + topYOffset)
 			yData.set(yStepsData[i], p + topYOffset)
 		})
 		setYPointsToDrawData(yData)
@@ -60,72 +60,24 @@ const CanvasChart = (props: any) => {
 		drawXAxis(canvasCtxRef.current, canvasCtxRef.current.canvas.width, canvasCtxRef.current.canvas.height)
 		drawYAxis(canvasCtxRef.current, canvasCtxRef.current.canvas.width, canvasCtxRef.current.canvas.height)
 	}
-	const [isShowBars,setShowBars]=useState(false)
-	const showBars=()=>setShowBars(prev=>!prev)
-	useEffect(()=>{
-		if(isShowBars) {
-			drawDataOnCanvas(barRangeData, 'day', 'time')
-		}else{
-			draw(canvasCtxRef.current)
-			drawXAxisData()
-			drawYAxisData()
+	const getOneBarCoords = <U extends keyof typeItem>(day: typeItem, xKey: U, yKey: U) => {
+		return {
+			x: getXCoord(day[xKey] as string),
+			y: (day[yKey] as number[]).map(d => getYCoord(d))
 		}
-	},[isShowBars])
-
-	const [isShowAreas,setShowAreas]=useState(false)
-	const showAreas=()=>setShowAreas(prev=>!prev)
-	useEffect(()=>{
-		if(isShowAreas) {
-			drawAreasOnCanvas(barRangeData)
-			//-------drawDataOnCanvas(barRangeData, 'day', 'time')
-		}else{
-			draw(canvasCtxRef.current)
-			drawXAxisData()
-			drawYAxisData()
-		}
-	},[isShowAreas])
-
-
-	const drawAreasOnCanvas=(data: typeDataForChart)=>{
-		canvasCtxRef.current.beginPath()
-		canvasCtxRef.current.moveTo(startX,getYCoord(data[0].time[0]))
-		canvasCtxRef.current.lineTo(getXCoord(data[0].day),getYCoord(data[0].time[0]))
-		for(let i=1;i<data.length;i++){
-			//canvasCtxRef.current.lineTo(getXCoord(data[i].day),getYCoord(data[i].time[0]))
-		//	if(data[i+1])
-				// canvasCtxRef.current.bezierCurveTo(
-				// getXCoord(data[i].day),getYCoord(data[i].time[0]),
-				// getXCoord(data[i].day), getYCoord(data[i+1].time[0]),
-				// getXCoord(data[i+1].day),getYCoord(data[i+1].time[0]));
-				//canvasCtxRef.current.lineTo(getXCoord(data[i].day),getYCoord(data[i].time[0]))
-			//else
-				canvasCtxRef.current.lineTo(getXCoord(data[i].day),getYCoord(data[i].time[0]))
-			}
-		canvasCtxRef.current.lineTo(getXCoord(data[data.length-1].day),getYCoord(data[data.length-1].time[1]))
-		for(let i=data.length-1;i>=0;i--){
-			canvasCtxRef.current.lineTo(getXCoord(data[i].day),getYCoord(data[i].time[1]))
-		}
-		canvasCtxRef.current.lineTo(startX,getYCoord(data[0].time[1]))
-		canvasCtxRef.current.stroke()
-		canvasCtxRef.current.closePath();
-		canvasCtxRef.current.lineWidth = 2;
-		canvasCtxRef.current.fillStyle = 'rgba(93,221,157,0.74)';
-		canvasCtxRef.current.fill();
-		canvasCtxRef.current.strokeStyle = 'red';
-		canvasCtxRef.current.stroke();
 	}
-	const drawDataOnCanvas =
-		<U extends keyof typeItem>
-		(data: typeDataForChart, xKey: U, yKey: U) => {
-			data.forEach(d => {
-				const xCoord = getXCoord(d[xKey] as string)
-				const yCoords = (d[yKey] as number[]).map(d => {
-					return getYCoord(d)
-				})
-				drawBar(xCoord, yCoords)
-			})
-		}
-
+	const drawOneBarOnCanvas = <U extends keyof typeItem>(day: typeItem, xKey: U, yKey: U) => {
+		const {x, y} = getOneBarCoords(day, xKey, yKey)
+		console.log('x,y,',x,y)
+		console.log(barRangeData,'RR')
+		drawBar(x, y)
+	}
+	//todo draw Cells yline is connect with day, and on hover on dayLine we define time
+	const drawBarsOnCanvas = <U extends keyof typeItem>(data: typeDataForChart, xKey: U, yKey: U) => {
+		if (!xPointToDrawData || !xPointToDrawData.size ||
+			!yPointToDrawData || !yPointToDrawData.size) return
+		data.forEach(d => drawOneBarOnCanvas(d, xKey, yKey))
+	}
 	const draw = (ctx: CanvasRenderingContext2D) => {
 		if (!ctx) return
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
@@ -133,28 +85,37 @@ const CanvasChart = (props: any) => {
 		ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 		axis(ctx)
 	}
-	// useEffect(() => {
-	// 	drawDataOnCanvas(barRangeData, 'day', 'time')
-	// }, [yPointToDrawData])
+	const deleteBarFromCanvas=<U extends keyof typeItem>(day: typeItem, xKey: U, yKey: U)=>{
+		const coords = getOneBarCoords(day,'day','time')
+		canvasCtxRef.current.clearRect(coords.x-5, coords.y[1]-5, 10, (coords.y[0]-coords.y[1])+10)
+		canvasCtxRef.current.fillStyle ='#ffc'//'#98d2c0'
+		canvasCtxRef.current.fillRect(coords.x-5, coords.y[1]-5, 10, (coords.y[0]-coords.y[1])+10)
+	}
+
+	useEffect(() => drawBarsOnCanvas(barRangeData, 'day', 'time'), [yPointToDrawData])
 	useEffect(() => {
 		drawXAxisData()
 		drawYAxisData()
 	}, [xAxisPoints])
+	const getPoints = (canvasWidth: number, array: any[]) => {
+		const steps: number[] = []
+		const stepSize = canvasWidth / array.length
+		for (let i = 1; i <= array.length; i++) {
+			steps.push(i * stepSize)
+		}
+		return steps
+	}
+	const addBarToDataObject = (data: chooseDateComponent) => {
+		const el = barRangeData.find(e => +e.day == data.data)
+		el.time = [data.from, data.to]
+		return el
+	}
 	useEffect(() => {
 		draw(canvasCtxRef.current)
 		if (startX && startY) {
-			const stepsXPoints: number[] = []
-			const stepsYPoints: number[] = []
-			const xStep = (canvasRef.current.width * 0.8) / xStepsData.length
-			const yStep = (canvasRef.current.height * 0.8) / yStepsData.length
-			for (let i = 1; i <= xStepsData.length; i++) {
-				stepsXPoints.push(i * xStep)
-			}
-			for (let i = 1; i <= yStepsData.length; i++) {
-				stepsYPoints.push(i * yStep)
-			}
-			setXAxisPoints(stepsXPoints)
-			setYAxisPoints(stepsYPoints)
+			const cnv = canvasRef.current
+			setXAxisPoints(getPoints(cnv.width * 0.8, xStepsData))
+			setYAxisPoints(getPoints(cnv.height * 0.8, yStepsData))
 		}
 	}, [startX])
 	useEffect(() => {
@@ -164,19 +125,40 @@ const CanvasChart = (props: any) => {
 		setStartX(context.canvas.width * 0.1)
 		setStartY(context.canvas.height * 0.9)
 	}, [])
+	useEffect(()=>{
+		if(!newDayData)return
+		const newEl=addBarToDataObject(newDayData)
+		console.log(newEl,'newEl')
+			drawOneBarOnCanvas(newEl, 'day', 'time')
+	},[newDayData])
+	return <>
+		<button onClick={() => {
+			setAddDataDates(barRangeData.filter(e => !e.time.length))
+			setAddData(true)
+		}}>Add Data
+		</button>
+		<button onClick={() => {
+			setEditDataDates(barRangeData.filter(e => e.time.length))
+			setEditData(true)
+		}}>Change Data
+		</button>
+		{
+			addDateData && <ChooseDateComponent dateArray={addDataDates} handler={(data) => {
+				drawOneBarOnCanvas(addBarToDataObject(data), 'day', 'time')
+				setAddData(false)
+			}}/>
+		}
+		{
+			editDateData && <ChooseDateComponent
+				dateArray={editDateDates}
+				handler={(data) => {
+				deleteBarFromCanvas(barRangeData.find(e=>+e.day==data.data),'day','time')
+					setNewDayData(data)
+					setEditData(false)
+					}}/>
+		}
 
-	return (
-		<div>
-			<div>
-				<button onClick={showBars}>Show Bar</button>
-				<button onClick={showAreas}>Show Areas</button>
-				<button>ShowLines</button>
-			</div>
-			<div>
-				<canvas width={500} height={500} ref={canvasRef} {...props}/>
-			</div>
-		</div>
-
-	)
+		<canvas width={800} height={500} ref={canvasRef}/>
+	</>
 }
 export default CanvasChart
