@@ -94,10 +94,7 @@ const Schema = yup.object({
     .min(2, "Too Short!")
     .max(15, "Must be 15 characters or less")
     .required("This field is required"),
-  email: yup
-    .string()
-    .email("Invalid email")
-    .required("This field is required"),
+  email: yup.string().email("Invalid email").required("This field is required"),
   password: yup
     .string()
     .min(6, "Must have at least 6 characters")

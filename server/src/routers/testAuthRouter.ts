@@ -1,11 +1,11 @@
 const express=require('express')
-const photosRouter=express.Router()
-const formTestController= require('../controllers/formTestController.ts')
+const authRouter=express.Router()
+const formAuthController= require('../controllers/formAuthController.ts')
 
-photosRouter.route('/')
-	.post(formTestController.test)
+authRouter.route('/')
+	.post(formAuthController.test)
 
-export default photosRouter
+export default authRouter
 
 // 	//  .get(imagesControllers.getImage)
 // 	.post(translatesControllers.addTranslate)

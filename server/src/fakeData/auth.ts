@@ -1,10 +1,12 @@
 export default [
     {
-      "name": "admin",
-      "password": "admin"
+      "email": "admin",
+      "password": "admin",
+      'name':'adminName'
     },
     {
-        "name": "user",
-        "password": "user"
+        "email": "user",
+        "password": "user",
+        'name':'userName'
       }
 ]

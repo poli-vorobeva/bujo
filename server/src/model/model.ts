@@ -12,7 +12,22 @@ export default class Model {
         return this.users;
     }
 
-    checkUsers(name: string, password: string){
-        return this.users.find(it=>it.name===name&&it.password===password);
+    checkUsers(email: string, password: string){
+        const user = this.users.find(it=>it.email===email&&it.password===password);
+        if(user){
+            return user
+        }
+        return null
+    }
+
+    addUser(email: string, name: string, password: string){
+        const user = this.users.find(it=>it.email===email);
+        if(user){
+            return false;
+        }
+        
+        //check name
+        //add user
+        return true
     }
 }

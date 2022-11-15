@@ -1,41 +1,70 @@
-import {reg, auth} from './slice';
+import { reg, auth, authUserData, regUserData } from "./slice";
 import { useSelector, useDispatch } from "react-redux";
-import {IUser} from './reducer';
-import React, { useState } from 'react';
-import {  Link } from "react-router-dom";
-import {requestAuth} from './request/requestAuth';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { requestAuth } from "./request/requestAuth";
 
-const TestForm = () => {
-
-    const nameStore = useSelector((state:IUser) => state.user.name);
-    const passwordStore =  useSelector((state:IUser) => state.user.password);
-    const dispatch = useDispatch();
-    const [name, changeName]=useState('');
-    const [password, changePassword] = useState('');
-
-    const onSunmit = ()=>{
-        changeName('');
-        changePassword('');
-        requestAuth(name, password).then(res=>res.json())
-        .then(data=>{
-            if(data.status==='ok'){
-                dispatch(reg({name: data.name, password:data.password}));
-            }else{
-                dispatch(reg({name:'false', password:'false'}));
-            }
-        })
-    }
-    
-    return (
-        <div>
-            <p>{nameStore}</p>
-            <p>{passwordStore}</p>
-            <input onChange={(e)=>changeName(e.target.value)} type="text" value={name} required/><br/>
-            <input onChange={(e)=>changePassword(e.target.value)} type="text" value={password} required/><br/>
-            <button onClick={onSunmit}>Reg</button>
-            <p></p>
-        </div>
-    )
+import store from "./store";
+export type AppDispatch = typeof store.dispatch;
+export interface IUser {
+  user: {
+    email: string;
+    password: string;
+    name: string;
+  };
 }
+const TestForm = () => {
+  const nameStore = useSelector((state: IUser) => state.user.name);
+  const passwordStore = useSelector((state: IUser) => state.user.password);
+  const dispatch = useDispatch<AppDispatch>();
+  const [name, changeName] = useState("");
+  const [email, changeEmail] = useState("");
+  const [password, changePassword] = useState("");
+
+  const onAuth = () => {
+    changeName("");
+    changePassword("");
+    changeEmail("");
+    dispatch(authUserData({ email, password }));
+  };
+  const onReg = () => {
+    changeName("");
+    changePassword("");
+    changeEmail("");
+    dispatch(regUserData({ email, name, password }));
+  };
+
+  return (
+    <div>
+      <p>{nameStore}</p>
+      Name{" "}
+      <input
+        onChange={(e) => changeName(e.target.value)}
+        type="text"
+        value={name}
+      />
+      <br />
+      Email
+      <input
+        onChange={(e) => changeEmail(e.target.value)}
+        type="text"
+        value={email}
+        required
+      />
+      <br />
+      Password
+      <input
+        onChange={(e) => changePassword(e.target.value)}
+        type="text"
+        value={password}
+        required
+      />
+      <br />
+      <button onClick={onAuth}>Auth</button>
+      <button onClick={onReg}>Reg</button>
+      <p></p>
+    </div>
+  );
+};
 
 export default TestForm;
