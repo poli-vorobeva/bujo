@@ -1,0 +1,32 @@
+.chooseDateComponent {
+    width: 200px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    border-radius: 20px;
+    background-color: rgba(52, 69, 11, 0.58);
+}
+
+.chooseDateComponent span {
+    padding: 4px;
+    box-sizing: border-box;
+    background: rgba(21, 32, 32, 0.2);
+    border-radius: 50%;
+    text-align: center;
+    color: rgba(242, 247, 230, 0.9);
+    box-shadow: inset 0 0 2px 2px rgba(52, 24, 24, 0.2);
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+.chooseDateComponent span:hover{
+    background: rgba(11, 255, 255, 0.58);
+    color: rgba(255,255,255,1);
+}
+
+.chooseTimeComponent{
+    width: 100vw;
+    background: green;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,30px);
+}
