@@ -13,7 +13,7 @@ export async function requestReg(
   try {
     const response = await fetch(
       //'http://localhost:5000/'
-      "http://localhost:3000/" + "reg",
+      "http://localhost:5000/" + "reg",
       {
         method: "POST",
         headers: {

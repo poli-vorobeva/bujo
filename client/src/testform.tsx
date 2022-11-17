@@ -1,4 +1,4 @@
-import { reg, auth, authUserData, regUserData } from "./slice";
+import { reg, auth, authUserData, regUserData } from "./reducer/fetchUserData";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -7,15 +7,15 @@ import { requestAuth } from "./request/requestAuth";
 import store from "./store";
 export type AppDispatch = typeof store.dispatch;
 export interface IUser {
-  user: {
+  userData: {
     email: string;
     password: string;
     name: string;
   };
 }
 const TestForm = () => {
-  const nameStore = useSelector((state: IUser) => state.user.name);
-  const passwordStore = useSelector((state: IUser) => state.user.password);
+  const nameStore = useSelector((state: IUser) => state.userData.name);
+  const passwordStore = useSelector((state: IUser) => state.userData.password);
   const dispatch = useDispatch<AppDispatch>();
   const [name, changeName] = useState("");
   const [email, changeEmail] = useState("");
@@ -25,13 +25,17 @@ const TestForm = () => {
     changeName("");
     changePassword("");
     changeEmail("");
-    dispatch(authUserData({ email, password }));
+    dispatch(authUserData({ email, password })).then((res) => {
+      console.log(res);
+    });
   };
   const onReg = () => {
     changeName("");
     changePassword("");
     changeEmail("");
-    dispatch(regUserData({ email, name, password }));
+    dispatch(regUserData({ email, name, password })).then((res) =>
+      console.log(res)
+    );
   };
 
   return (
@@ -62,6 +66,7 @@ const TestForm = () => {
       <br />
       <button onClick={onAuth}>Auth</button>
       <button onClick={onReg}>Reg</button>
+      <Link to={"./main"}>Link</Link>
       <p></p>
     </div>
   );

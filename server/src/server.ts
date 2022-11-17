@@ -1,4 +1,5 @@
 import {json} from 'body-parser'
+const path = require('path');
 // import categoriesRouter from "../routes/categoriesRouts";
 // import userRouter from "../routes/userRouts";
 // import imagesRouter from "../routes/imagesRouts";
@@ -10,7 +11,8 @@ import testRegRouter from './routers/testRegRouter'
 //const mongoose = require('mongoose')
 //const fs = require('fs')
 const express=require('express')
-const app = express()
+const app = express();
+//app.use(express.static(path.join(__dirname, 'client/build')));
 //const PORT : string|number = process.env.PORT || 5000;
 const cors = require('cors')
 const bodyParser = require('body-parser');
@@ -19,8 +21,8 @@ const bodyParser = require('body-parser');
  app.use(bodyParser.json());
  app.use(json())
 //app.use('/',()=>console.log("*&&*&&"))
-app.use('/photos',cors(),photosRouter)
-app.use('/auth',cors(), testAuthRouter)
+app.use('/api/photos',cors(),photosRouter)
+app.use('/api/auth',cors(), testAuthRouter)
 app.use('/reg',cors(), testRegRouter)
 
 // app.use('/api/categories',cors(), categoriesRouter);
@@ -38,4 +40,4 @@ app.use('/reg',cors(), testRegRouter)
 // 	})
 // 	.then(()=>console.log('Connected')).catch((e:Error)=>console.log(e))
 // //app.use('/')
-app.listen(3000,()=>console.log("LIST"));
+app.listen(5000,()=>console.log("LIST"));

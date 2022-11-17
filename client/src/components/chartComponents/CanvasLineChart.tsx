@@ -1,6 +1,3 @@
-
-const CanvasLineChart=()=>{
-	return(
-		<canvas></canvas>
-	)
-}
+const CanvasLineChart = () => {
+  return <canvas></canvas>;
+};

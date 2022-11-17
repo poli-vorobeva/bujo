@@ -21,8 +21,8 @@
     "react-redux": "^8.0.4",
     "react-router": "^6.4.3",
     "react-router-dom": "^6.4.3",
-    "redux": "^4.2.0",
     "recharts": "^2.1.16",
+    "redux": "^4.2.0",
     "stream-http": "^3.2.0",
     "styled-components": "^5.3.6",
     "url": "^0.11.0",
@@ -48,6 +48,7 @@
   "version": "1.0.0",
   "description": "My webpack project",
   "name": "my-webpack-project",
+  "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
@@ -61,5 +62,6 @@
       "react-app",
       "react-app/jest"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

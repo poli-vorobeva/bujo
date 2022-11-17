@@ -12,7 +12,7 @@ export async function requestAuth(
   try {
     const response = await fetch(
       //'http://localhost:5000/'
-      "http://localhost:3000/" + "auth",
+      "http://localhost:5000/api/" + "auth",
       {
         method: "POST",
         headers: {

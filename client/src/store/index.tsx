@@ -1,9 +1,9 @@
-import reducer from "../slice";
+import userData from "../reducer/fetchUserData";
 
 import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
-  reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  reducer: { userData },
+  //middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 export default store;
