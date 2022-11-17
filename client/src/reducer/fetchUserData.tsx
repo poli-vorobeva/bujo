@@ -29,7 +29,7 @@ export interface IUser2 {
 }
 
 const initialState = {
-  email: "sds",
+  email: "admin",
   password: "admin",
   id: "",
   name: "admin",

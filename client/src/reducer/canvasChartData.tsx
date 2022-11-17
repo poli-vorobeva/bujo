@@ -16,7 +16,7 @@ export interface IUser {
 }
 
 export const getCanvasData = createAsyncThunk(
-  "canvasDataChart",
+  "getCanvasDataChart",
   async ({ email }: IUser, thunkAPI) => {
     const response = await requestCanvasChart(email);
     if (response.status === "ok") {
@@ -28,31 +28,23 @@ export const getCanvasData = createAsyncThunk(
   }
 );
 
+// export const changeCanvasData = createAsyncThunk(
+//   "changeCanvasDataChart",
+//   async ({ email }: IUser, thunkAPI) => {
+//     const response = await requestCanvasChart(email);
+//     if (response.status === "ok") {
+//       return {
+//         data: response.data,
+//       };
+//     }
+//     throw new Error("false data");
+//   }
+// );
+
+
 const canvasCharSlice = createSlice({
   name: "data",
   initialState,
-  // reducers:{
-  //     auth: {
-  //         reducer: (state, action: PayloadAction<IUser2>)=>{
-  //                 state.user.name = action.payload.name;
-  //                 state.user.password =  action.payload.password;
-  //                 state.user.id = action.payload.id;
-  //             },
-  //         prepare: (data:IUser1)=>{
-  //             const id = 'fff';
-  //             return {payload:{id, name: data.name, password: data.password}, type:'AUTH'}
-  //         }},
-  //         reg: {
-  //             reducer: (state, action: PayloadAction<IUser2>)=>{
-  //                     state.user.name = action.payload.name;
-  //                     state.user.password =  action.payload.password;
-  //                     state.user.id = action.payload.id;
-  //                 },
-  //             prepare: (data:IUser1)=>{
-  //                 const id = 'fff';
-  //                 return {payload:{id, name: data.name, password: data.password}, type:'AUTH'}
-  //             }},
-  // }
   reducers: {},
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
