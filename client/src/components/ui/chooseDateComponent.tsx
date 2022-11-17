@@ -21,8 +21,12 @@ const ChooseTimeComponent = (props: {
     <>
       <div>{props.text}</div>
       <div className="chooseDateComponent">
-        {props.timeArr.map((e,i) => {
-          return <span key={i} onClick={() => props.getTime(e)}>{e}</span>;
+        {props.timeArr.map((e, i) => {
+          return (
+            <span key={i} onClick={() => props.getTime(e)}>
+              {e}
+            </span>
+          );
         })}
       </div>
     </>
@@ -88,7 +92,7 @@ const ChooseDateComponent = ({
           {daysInMonth.map((e, i) => {
             return (
               <span
-              key={i}
+                key={i}
                 onClick={() => {
                   setDataToAdd((prev) => ({ ...prev, data: e }));
                   clickDate(e);

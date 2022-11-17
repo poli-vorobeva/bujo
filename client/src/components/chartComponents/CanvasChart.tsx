@@ -15,8 +15,10 @@ import {
 import ChooseDateComponent, {
   chooseDateComponent,
 } from "../ui/chooseDateComponent";
-import { useSelector } from "react-redux";
-import { getCanvasData } from "../../reducer/canvasChartData";
+import { useDispatch, useSelector } from "react-redux";
+import { changeCanvasData, getCanvasData } from "../../reducer/canvasChartData";
+import store from "../../store";
+export type AppDispatch = typeof store.dispatch;
 export interface IUser {
   userData: {
     email: string;
@@ -32,10 +34,10 @@ interface IDataChart {
 const CanvasChart = (props: any) => {
   const [xPointToDrawData, setXPointsToDrawData] = useState(null);
   const [yPointToDrawData, setYPointsToDrawData] = useState(null);
-
-  // const barRangeData = useSelector(
-  //   (state: IDataChart) => state.canvasDataChart.data
-  // );
+  const dispatch = useDispatch<AppDispatch>();
+  const barRangeData = useSelector(
+    (state: IDataChart) => state.canvasDataChart.data
+  );
   const xStepsData = getXAxisData(barRangeData, "day"); //from data
   const yStepsData = [
     18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
@@ -112,8 +114,8 @@ const CanvasChart = (props: any) => {
     yKey: U
   ) => {
     const { x, y } = getOneBarCoords(day, xKey, yKey);
-    console.log("x,y,", x, y);
-    console.log(barRangeData, "RR");
+    //console.log("x,y,", x, y);
+    //console.log(barRangeData, "RR");
     drawBar(x, y);
   };
   //todo draw Cells yline is connect with day, and on hover on dayLine we define time
@@ -176,11 +178,18 @@ const CanvasChart = (props: any) => {
     return steps;
   };
   const addBarToDataObject = (data: chooseDateComponent) => {
-
-    const el = barRangeData.find((e) => +e.day == data.data);
+    dispatch(
+      changeCanvasData({
+        day: String(data.data),
+        timeFrom: data.from,
+        timeTo: data.to,
+      })
+    );
+    //console.log(el)
+    //const el = barRangeData.find((e) => +e.day == data.data);
     //отправка на сервер
-    el.time = [data.from, data.to];
-    return el;
+    //el.time = [data.from, data.to];
+    return { day: String(data.data), time: [data.from, data.to] };
   };
   useEffect(() => {
     draw(canvasCtxRef.current);

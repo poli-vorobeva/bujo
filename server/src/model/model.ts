@@ -1,21 +1,25 @@
 
 import auth from '../fakeData/auth';
-import {dataUsers} from '../fakeData/canvasChart';
+import {dataUsers, typeDataForChart} from '../fakeData/canvasChart';
 
 export default class Model {
     users:any=[];
     data: any=[];
+    dataUser:typeDataForChart= [];
     constructor(){
         this.users = auth;
         this.data = dataUsers;
+        this.dataUser =[];
     }
    
     getData(email:string){
         const user= this.data.find(it=>it.email===email);
         if(user){
-            return user.data;
+            this.dataUser = user.data
+            return this.dataUser
         }
-        return new Array(30).fill(0).map((it,indx)=>{return {day:String(indx+1), time:[]}})
+        this.dataUser = new Array(30).fill(0).map((it,indx)=>{return {day:String(indx+1), time:[]}})
+        return this.dataUser
     }
 
 
@@ -37,4 +41,13 @@ export default class Model {
         //add user
         return true
     }
+
+    changeData( day: string,timeFrom: number, timeTo: number){
+        const el = this.dataUser.find(el=>el.day==day);
+        if(el){
+            el.time = [timeFrom, timeTo];
+        }
+       return this.dataUser
+
+        }
 }

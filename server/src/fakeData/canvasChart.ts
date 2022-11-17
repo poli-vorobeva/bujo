@@ -123,6 +123,8 @@ export const barRangeData: typeDataForChart = [
   },
 ];
 
+
+
 export const dataUsers = [
 {
     email: 'admin',

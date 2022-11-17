@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { requestCanvasChart } from "../request/requestCanvasChart";
+import {
+  requestCanvasChart,
+  requestCanvasChartChange,
+} from "../request/requestCanvasChart";
 import { requestReg } from "../request/requestReg";
 import { typeDataForChart } from "../components/chartComponents/mockData";
 
@@ -28,19 +31,24 @@ export const getCanvasData = createAsyncThunk(
   }
 );
 
-// export const changeCanvasData = createAsyncThunk(
-//   "changeCanvasDataChart",
-//   async ({ email }: IUser, thunkAPI) => {
-//     const response = await requestCanvasChart(email);
-//     if (response.status === "ok") {
-//       return {
-//         data: response.data,
-//       };
-//     }
-//     throw new Error("false data");
-//   }
-// );
+export interface IDataChange {
+  day: string;
+  timeFrom: number;
+  timeTo: number;
+}
 
+export const changeCanvasData = createAsyncThunk(
+  "changeCanvasDataChart",
+  async ({ day, timeFrom, timeTo }: IDataChange, thunkAPI) => {
+    const response = await requestCanvasChartChange({ day, timeFrom, timeTo });
+    if (response.status === "ok") {
+      return {
+        data: response.data,
+      };
+    }
+    throw new Error("false data");
+  }
+);
 
 const canvasCharSlice = createSlice({
   name: "data",
@@ -52,6 +60,12 @@ const canvasCharSlice = createSlice({
       state.data = action.payload.data;
     }),
       builder.addCase(getCanvasData.rejected, (state, action) => {
+        console.log("err");
+      });
+    builder.addCase(changeCanvasData.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    }),
+      builder.addCase(changeCanvasData.rejected, (state, action) => {
         console.log("err");
       });
   },

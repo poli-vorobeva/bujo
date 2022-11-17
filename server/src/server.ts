@@ -26,7 +26,6 @@ app.use('/api/photos',cors(),photosRouter)
 app.use('/api/auth',cors(), testAuthRouter)
 app.use('/api/reg',cors(), testRegRouter);
 app.use('/api/canvaschart',cors(), canvasChartRouter)
-
 // app.use('/api/categories',cors(), categoriesRouter);
 // app.use('/api/translates',translatesRouter);
 // app.use('/api/images',cors(),imagesRouter);
