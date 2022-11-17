@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
-import { barRangeData, typeDataForChart, typeItem } from "./mockData";
+import { /*barRangeData,*/ typeDataForChart, typeItem } from "./mockData";
 import {
   drawCircle,
   drawXAxis,
@@ -15,11 +15,27 @@ import {
 import ChooseDateComponent, {
   chooseDateComponent,
 } from "../ui/chooseDateComponent";
-
+import { useSelector } from "react-redux";
+import { getCanvasData } from "../../reducer/canvasChartData";
+export interface IUser {
+  userData: {
+    email: string;
+    password: string;
+    name: string;
+  };
+}
+interface IDataChart {
+  canvasDataChart: {
+    data: typeDataForChart;
+  };
+}
 const CanvasChart = (props: any) => {
   const [xPointToDrawData, setXPointsToDrawData] = useState(null);
   const [yPointToDrawData, setYPointsToDrawData] = useState(null);
 
+  const barRangeData = useSelector(
+    (state: IDataChart) => state.canvasDataChart.data
+  );
   const xStepsData = getXAxisData(barRangeData, "day"); //from data
   const yStepsData = [
     18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,

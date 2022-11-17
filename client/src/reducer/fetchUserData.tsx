@@ -29,10 +29,10 @@ export interface IUser2 {
 }
 
 const initialState = {
-  email: "",
-  password: "",
+  email: "sds",
+  password: "admin",
   id: "",
-  name: "",
+  name: "admin",
 };
 
 ///const dispatch = useDispatch<AppDispatch>();
