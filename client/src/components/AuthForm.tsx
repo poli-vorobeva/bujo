@@ -54,13 +54,15 @@ const AuthForm = (props: ITextForm) => {
         validationSchema={SchemaAuth}
         onSubmit={async (values, { setSubmitting }) => {
           const auth = getAuth();
-          console.log(values);
+          //console.log(values);
           if (props.mode === 'signup') {
             const userCredentials = await createUserWithEmailAndPassword(auth, values.email, values.password);
             const user = userCredentials.user;  
+            console.log('user', user);
           } else { 
             const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password);
             const user = userCredentials.user;
+            console.log('user login', user);
           }
           values.email = '';
           values.password = '';
