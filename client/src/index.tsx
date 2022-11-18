@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
 import { App } from "./app";
-//import './firebase'
+//import "./firebase";
 
 import { Provider } from "react-redux";
 import store from "./store";

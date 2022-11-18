@@ -12,7 +12,7 @@ interface IPage {
 export const App = () => {
   return (
     <HashRouter>
-      <GlobalStyles/>
+      <GlobalStyles />
       <Routes>
         <Route path="/" element={<Auth />}></Route>
         <Route path="/main" element={<Main />} />

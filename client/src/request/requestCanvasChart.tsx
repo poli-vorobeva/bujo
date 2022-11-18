@@ -1,6 +1,8 @@
 import { IResponseCanvasChart } from "../dto";
 
-export async function requestCanvasChart(email: string): Promise<IResponseCanvasChart> {
+export async function requestCanvasChart(
+  email: string
+): Promise<IResponseCanvasChart> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'

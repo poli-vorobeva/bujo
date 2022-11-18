@@ -1,4 +1,4 @@
-import {IResponseUserData} from '../dto';
+import { IResponseUserData } from "../dto";
 
 export async function requestReg(
   email: string,

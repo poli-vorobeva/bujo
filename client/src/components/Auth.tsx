@@ -5,9 +5,9 @@ import * as yup from "yup";
 import { colors } from "../variables";
 import bgForm from "../../public/images/sunset.jpg";
 import { useDispatch } from "react-redux";
-import {AppDispatch} from '../dto';
-import { authUserData ,regUserData} from "../reducer/fetchUserData";
-import { NavigateFunction, useNavigate  } from "react-router-dom";
+import { AppDispatch } from "../dto";
+import { authUserData, regUserData } from "../reducer/fetchUserData";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 interface ITextProp {
   label: string;
@@ -50,13 +50,13 @@ const ErrorMessageStyled = styled.div`
   color: red;
 `;
 
-const TextInputStyled = styled.div <{  }>`
+const TextInputStyled = styled.div<{}>`
   padding: 20px 0;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%; 
+  width: 100%;
 `;
 
 const TextInput = (props: ITextProp) => {
@@ -84,7 +84,6 @@ const Title = styled.h2<{ light: boolean }>`
   color: ${({ light }) => (light ? colors.light : colors.dark)};
 `;
 
-
 const SchemaIn = yup.object({
   email: yup.string().email("Invalid email").required("This field is required"),
   password: yup
@@ -104,13 +103,13 @@ interface ITextForm {
   mode: string;
   title: string;
   buttonName: string;
-  onSubmitClick:AppDispatch;
-  navigate:NavigateFunction;
+  onSubmitClick: AppDispatch;
+  navigate: NavigateFunction;
 }
 
-const TextFormStyled = styled(Form) <{ }>`
+const TextFormStyled = styled(Form)<{}>`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   width: 100%;
@@ -122,19 +121,31 @@ const SignupForm = (props: ITextForm) => {
     <FormStyled mode={props.mode}>
       <Title light={false}>{props.title}</Title>
       <Formik
-        initialValues={
-          {
-            password: "",
-            email: "",
-            name: "",
-          }}
+        initialValues={{
+          password: "",
+          email: "",
+          name: "",
+        }}
         validationSchema={SchemaIn}
         onSubmit={(values, { setSubmitting }) => {
-          (props.mode==="signup") ?
-            props.onSubmitClick(regUserData({email: values.email, name: values.name, password: values.password}))
-              .then(()=>props.navigate('main')):
-            props.onSubmitClick(authUserData({email: values.email, password: values.password}))
-              .then(()=>props.navigate('main'));
+          props.mode === "signup"
+            ? props
+                .onSubmitClick(
+                  regUserData({
+                    email: values.email,
+                    name: values.name,
+                    password: values.password,
+                  })
+                )
+                .then(() => props.navigate("main"))
+            : props
+                .onSubmitClick(
+                  authUserData({
+                    email: values.email,
+                    password: values.password,
+                  })
+                )
+                .then(() => props.navigate("main"));
           console.log(values);
           // setTimeout(() => {
           //   alert(JSON.stringify(values, null, 2));
@@ -142,19 +153,15 @@ const SignupForm = (props: ITextForm) => {
           // }, 400);
         }}
       >
-
-        <TextFormStyled  >
-          {(props.mode==="signup") ? 
-
-          <TextInput
-            label="First Name"
-            name="name"
-            type="text"
-            placeholder="Valentina"
-          /> 
-          : null}
-
-
+        <TextFormStyled>
+          {props.mode === "signup" ? (
+            <TextInput
+              label="First Name"
+              name="name"
+              type="text"
+              placeholder="Valentina"
+            />
+          ) : null}
 
           <TextInput
             label="Email Address"
@@ -173,13 +180,13 @@ const SignupForm = (props: ITextForm) => {
           <Button styleComp={{ bg: "pink", textColor: "black" }} type="submit">
             {props.buttonName}
           </Button>
-        </TextFormStyled >
+        </TextFormStyled>
       </Formik>
     </FormStyled>
   );
 };
 
-const ChangeFormStyled = styled.div <{ mode: string }>`
+const ChangeFormStyled = styled.div<{ mode: string }>`
   position: absolute;
   left: ${({ mode }) => (mode === "signin" ? "0px" : "50%")};
   display: flex;
@@ -229,43 +236,44 @@ const ContainerStyled = styled.div`
   position: relative;
 `;
 
-
 const signin = {
   title: "Sign In",
   nameButton: "Login",
   changeTitle: "Create account",
-  changeButtonName: "sign up"
-}
+  changeButtonName: "sign up",
+};
 
 const signup = {
   title: "Sign Up",
   nameButton: "Register",
   changeTitle: "Have an account?",
-  changeButtonName: "sign in"
-}
+  changeButtonName: "sign in",
+};
 
 const Auth = () => {
   const [mode, setMode] = useState("signin");
   const handleChangeButton = () => {
-    (mode === "signin" ? setMode("signup") : setMode("signin"))
-  }
+    mode === "signin" ? setMode("signup") : setMode("signin");
+  };
   const navigate = useNavigate();
-  const prop = (mode === "signin") ? signin : signup;
+  const prop = mode === "signin" ? signin : signup;
   const dispatch = useDispatch<AppDispatch>();
   return (
     <Overlay>
       <ContainerStyled>
-        <SignupForm mode={mode} 
-                    title={prop.title} 
-                    buttonName={prop.nameButton} 
-                    onSubmitClick = {dispatch}
-                    navigate={navigate}
+        <SignupForm
+          mode={mode}
+          title={prop.title}
+          buttonName={prop.nameButton}
+          onSubmitClick={dispatch}
+          navigate={navigate}
         />
-        <ChangeForm mode={mode} 
-                    buttonTitle={prop.changeButtonName} 
-                    style={{ textColor: "black", bg: "pink" }} 
-                    handleSubmit={handleChangeButton} 
-                    title={prop.changeTitle}
+        <ChangeForm
+          mode={mode}
+          buttonTitle={prop.changeButtonName}
+          style={{ textColor: "black", bg: "pink" }}
+          handleSubmit={handleChangeButton}
+          title={prop.changeTitle}
         />
       </ContainerStyled>
     </Overlay>
