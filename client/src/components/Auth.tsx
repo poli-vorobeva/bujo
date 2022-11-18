@@ -4,6 +4,10 @@ import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { colors } from "../variables";
 import bgForm from "../../public/images/sunset.jpg";
+import { useDispatch } from "react-redux";
+import {AppDispatch} from '../dto';
+import { authUserData ,regUserData} from "../reducer/fetchUserData";
+import { NavigateFunction, useNavigate  } from "react-router-dom";
 
 interface ITextProp {
   label: string;
@@ -100,6 +104,8 @@ interface ITextForm {
   mode: string;
   title: string;
   buttonName: string;
+  onSubmitClick:AppDispatch;
+  navigate:NavigateFunction;
 }
 
 const TextFormStyled = styled(Form) <{ }>`
@@ -120,9 +126,15 @@ const SignupForm = (props: ITextForm) => {
           {
             password: "",
             email: "",
+            name: "",
           }}
         validationSchema={SchemaIn}
         onSubmit={(values, { setSubmitting }) => {
+          (props.mode==="signup") ?
+            props.onSubmitClick(regUserData({email: values.email, name: values.name, password: values.password}))
+              .then(()=>props.navigate('main')):
+            props.onSubmitClick(authUserData({email: values.email, password: values.password}))
+              .then(()=>props.navigate('main'));
           console.log(values);
           // setTimeout(() => {
           //   alert(JSON.stringify(values, null, 2));
@@ -132,15 +144,15 @@ const SignupForm = (props: ITextForm) => {
       >
 
         <TextFormStyled  >
-          {/* {(props.mode==="signup") ? 
+          {(props.mode==="signup") ? 
 
-          <MyTextInput
+          <TextInput
             label="First Name"
             name="name"
             type="text"
             placeholder="Valentina"
           /> 
-          : null */}
+          : null}
 
 
 
@@ -233,23 +245,27 @@ const signup = {
 }
 
 const Auth = () => {
-  const [mode, setMode] = useState("signin")
+  const [mode, setMode] = useState("signin");
   const handleChangeButton = () => {
     (mode === "signin" ? setMode("signup") : setMode("signin"))
   }
+  const navigate = useNavigate();
   const prop = (mode === "signin") ? signin : signup;
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <Overlay>
       <ContainerStyled>
         <SignupForm mode={mode} 
                     title={prop.title} 
                     buttonName={prop.nameButton} 
+                    onSubmitClick = {dispatch}
+                    navigate={navigate}
         />
         <ChangeForm mode={mode} 
                     buttonTitle={prop.changeButtonName} 
                     style={{ textColor: "black", bg: "pink" }} 
                     handleSubmit={handleChangeButton} 
-                    title={prop.changeTitle} 
+                    title={prop.changeTitle}
         />
       </ContainerStyled>
     </Overlay>

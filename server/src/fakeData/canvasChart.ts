@@ -127,11 +127,11 @@ export const barRangeData: typeDataForChart = [
 
 export const dataUsers = [
 {
-    email: 'admin',
+    email: 'admin@admin.com',
     data:barRangeData 
 },
 {
-    email: 'user',
+    email: 'user@user.com',
     data:barRangeData 
 },
 ]
