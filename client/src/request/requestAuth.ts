@@ -1,14 +1,9 @@
-interface IResponse {
-  status: string;
-  email: string;
-  password: string;
-  name: string;
-}
+import {IResponseUserData} from '../dto';
 
 export async function requestAuth(
   email: string,
   password: string
-): Promise<IResponse> {
+): Promise<IResponseUserData> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'

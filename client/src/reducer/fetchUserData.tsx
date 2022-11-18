@@ -1,32 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IUserAuth, IUserReg } from "../dto";
 import { requestAuth } from "../request/requestAuth";
 import { requestReg } from "../request/requestReg";
-export interface IUser {
-  user: {
-    email: string;
-    password: string;
-    id: string;
-    name: string;
-  };
-}
 
-export interface IUser1 {
-  email: string;
-  password: string;
-}
-
-export interface IUser3 {
-  email: string;
-  password: string;
-  name: string;
-}
-
-export interface IUser2 {
-  email: string;
-  password: string;
-  id: string;
-  name: string;
-}
+// export interface IUser2 {
+//   email: string;
+//   password: string;
+//   id: string;
+//   name: string;
+// }
 
 const initialState = {
   email: "admin",
@@ -39,7 +21,7 @@ const initialState = {
 
 export const authUserData = createAsyncThunk(
   "users/authUserData",
-  async ({ email, password }: IUser1, thunkAPI) => {
+  async ({ email, password }: IUserAuth, thunkAPI) => {
     const response = await requestAuth(email, password);
     if (response.status === "ok") {
       return {
@@ -53,7 +35,7 @@ export const authUserData = createAsyncThunk(
 );
 export const regUserData = createAsyncThunk(
   "users/regUserData",
-  async ({ email, name, password }: IUser3, thunkAPI) => {
+  async ({ email, name, password }: IUserReg, thunkAPI) => {
     const response = await requestReg(email, name, password);
     if (response.status === "ok") {
       return {

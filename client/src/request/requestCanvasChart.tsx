@@ -1,14 +1,6 @@
-import { typeDataForChart } from "../components/chartComponents/mockData";
+import { IResponseCanvasChart } from "../dto";
 
-interface IResponse {
-  status: string;
-  data: typeDataForChart;
-}
-
-interface IDataChart {
-  data: typeDataForChart;
-}
-export async function requestCanvasChart(email: string): Promise<IResponse> {
+export async function requestCanvasChart(email: string): Promise<IResponseCanvasChart> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'
@@ -33,9 +25,10 @@ export interface IDataChange {
   timeFrom: number;
   timeTo: number;
 }
+
 export async function requestCanvasChartChange(
   data: IDataChange
-): Promise<IResponse> {
+): Promise<IResponseCanvasChart> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'

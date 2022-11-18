@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import RegForm from "./components/RegForm";
 import TestForm from "./testform";
 import CanvasChart from "./components/chartComponents/CanvasChart";
 import { useSelector, useDispatch } from "react-redux";

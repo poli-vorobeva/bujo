@@ -4,13 +4,13 @@ import {
   requestCanvasChartChange,
 } from "../request/requestCanvasChart";
 import { requestReg } from "../request/requestReg";
-import { typeDataForChart } from "../components/chartComponents/mockData";
+import { typeDataForCanvasChart } from "../dto";
 
 const initialState = {
   data: {},
 };
 interface IDataChart {
-  data: typeDataForChart;
+  data: typeDataForCanvasChart;
 }
 
 ///const dispatch = useDispatch<AppDispatch>();
