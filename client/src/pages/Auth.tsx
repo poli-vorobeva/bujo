@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import styled from "styled-components";
+// @ts-ignore
 import bgForm from "../../public/images/sunset.jpg";
 import AuthForm from "../components/AuthForm";
 import ChangeForm from "../components/ChangeForm";
@@ -22,6 +23,8 @@ const ContainerStyled = styled.div`
   height: 450px;
   position: relative;
 `;
+
+//todo no global vars
 
 const signin = {
   title: "Sign In",

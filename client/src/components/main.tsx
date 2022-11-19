@@ -21,7 +21,7 @@ const Main = () => {
   return (
     <div>
       <div>Hello, {name}</div>
-      <Link to="/canvasChart">Canvas chart</Link>
+      {/*<Link to="/canvasChart">Canvas chart</Link>*/}
     </div>
   );
 };

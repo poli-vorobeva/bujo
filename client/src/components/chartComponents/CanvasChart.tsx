@@ -18,6 +18,9 @@ import ChooseDateComponent, {
 import { useDispatch, useSelector } from "react-redux";
 import { changeCanvasData, getCanvasData } from "../../reducer/canvasChartData";
 import store from "../../store";
+import Button from "../ButtonStyled";
+import {Link} from "react-router-dom";
+import {Redirect} from "react-router";
 export type AppDispatch = typeof store.dispatch;
 export interface IUser {
   userData: {
@@ -32,18 +35,27 @@ interface IDataChart {
   };
 }
 const CanvasChart = (props: any) => {
+  console.log("&&&&&&&CANVAS")
+  //need to get user data
   const [xPointToDrawData, setXPointsToDrawData] = useState(null);
   const [yPointToDrawData, setYPointsToDrawData] = useState(null);
+  const canvasRef = useRef(null);
+  const canvasCtxRef = useRef(null);
+
   const dispatch = useDispatch<AppDispatch>();
+
   const barRangeData = useSelector(
     (state: IDataChart) => state.canvasDataChart.data
   );
+  if(!barRangeData.length){
+  // <Redirect to = '/'/>
+return
+  }
+  console.log(barRangeData,'#')
   const xStepsData = getXAxisData(barRangeData, "day"); //from data
   const yStepsData = [
     18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
   ].reverse(); //sortDefault(getYAxisData(barRangeData, 'time'))
-  const canvasRef = useRef(null);
-  const canvasCtxRef = useRef(null);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
   const [xAxisPoints, setXAxisPoints] = useState([]);
@@ -213,23 +225,23 @@ const CanvasChart = (props: any) => {
     drawOneBarOnCanvas(newEl, "day", "time");
   }, [newDayData]);
   return (
-    <>
-      <button
+    <div>
+      <Button
         onClick={() => {
           setAddDataDates(barRangeData.filter((e) => !e.time.length));
           setAddData(true);
         }}
       >
         Add Data
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           setEditDataDates(barRangeData.filter((e) => e.time.length));
           setEditData(true);
         }}
       >
         Change Data
-      </button>
+      </Button>
       {addDateData && (
         <ChooseDateComponent
           dateArray={addDataDates}
@@ -255,7 +267,7 @@ const CanvasChart = (props: any) => {
       )}
 
       <canvas width={800} height={500} ref={canvasRef} />
-    </>
+    </div>
   );
 };
 export default CanvasChart;
