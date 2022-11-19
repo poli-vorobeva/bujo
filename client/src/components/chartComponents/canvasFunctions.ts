@@ -5,11 +5,12 @@ horizontalLine(ctx,width * 0.1,width * 0.9,height * 0.9)
 	ctx.lineTo(width * 0.89, height * 0.89)
 	ctx.moveTo(width * 0.9, height * 0.9)
 	ctx.lineTo(width * 0.89, height * 0.91)
+	ctx.lineWidth=1
 	ctx.strokeStyle = 'black';
 	ctx.stroke();
 }
 export const drawYAxis=(ctx:CanvasRenderingContext2D,width:number,height:number)=>{
-verticalLine(ctx,width * 0.1, height * 0.9,height * 0.1,false)
+verticalLine(ctx,width * 0.1, height * 0.9,height * 0.1)
 	ctx.moveTo(width * 0.1, height * 0.1)
 	ctx.lineTo(width * 0.11, height * 0.11)
 	ctx.moveTo(width * 0.1, height * 0.1)
@@ -33,9 +34,11 @@ export const drawCircle=(ctx:CanvasRenderingContext2D,x:number,y:number,r:number
 	ctx?.beginPath()
 	ctx?.arc(x, y, r, 0, 2 * Math.PI);
 	ctx?.stroke();
+	ctx.closePath()
 }
 
-export const verticalLine=(ctx:CanvasRenderingContext2D,x:number,y1:number,y2:number,animate:boolean=false)=>{
+export const verticalLine=(ctx:CanvasRenderingContext2D,x:number,y1:number,
+													 y2:number,animate:boolean=false)=>{
 	let currentY=y1<y2?y1:y2
 	let finishY=y1<y2?y2:y1
 	if(animate){
@@ -54,12 +57,20 @@ export const verticalLine=(ctx:CanvasRenderingContext2D,x:number,y1:number,y2:nu
 	ctx?.stroke();
 }
 }
+//      gradient = context.createLinearGradient(50, 30, 150, 150);
+//             gradient.addColorStop(0, "blue");
+//             gradient.addColorStop(1, "white");
+//             context.fillStyle = gradient;
+//             context.fillRect(50, 30, 150, 150);
+//             context.strokeRect(50, 30, 150, 150);
+//GRADIETN
 export const horizontalLine=(ctx:CanvasRenderingContext2D,x1:number,x2:number,y:number)=>{
+
 	ctx?.moveTo(x1, y)
 	ctx?.lineTo(x2, y)
 	ctx?.stroke();
 }
-export const text=(ctx:CanvasRenderingContext2D,text:string,x:number,y:number,color:string='gray')=>{
+export const text=(ctx:CanvasRenderingContext2D,text:string,x:number,y:number,color:string='red')=>{
 	ctx.fillStyle =color
 	ctx.fillText(text, x, y)
 }

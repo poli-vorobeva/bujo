@@ -5,7 +5,7 @@ import {json} from 'body-parser'
 // import translatesRouter from "../routes/translatesRouter";
 import photosRouter from './routers/photosRouter'
 
-//const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 //const fs = require('fs')
 const express=require('express')
 const app = express()
@@ -25,13 +25,13 @@ app.use('/photos',cors(),photosRouter)
 // app.use('/api/users',userRouter);
 
 
-// mongoose.connect('mongodb+srv://addData@cluster0.zlz6u.mongodb.net/english',
-// 	{
-// 		useNewUrlParser:true,
-// 		useCreateIndex:true,
-// 		useFindAndModify:false,
-// 		useUnifiedTopology: true
-// 	})
-// 	.then(()=>console.log('Connected')).catch((e:Error)=>console.log(e))
+mongoose.connect('mongodb+srv://poli8512:Prima111!!@cluster0.zlz6u.mongodb.net/bujo',
+	{
+		useNewUrlParser:true,
+		//useCreateIndex:true,
+		//useFindAndModify:false,
+		useUnifiedTopology: true
+	})
+	.then(()=>console.log('Connected')).catch((e:Error)=>console.log(e))
 // //app.use('/')
 app.listen(3000,()=>console.log("LIST"));

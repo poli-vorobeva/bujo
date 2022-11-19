@@ -1,16 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {test} from "./requestToServer";
-import AreaChartComponent from './components/chartComponents/AreaChart.tsx'
+import AreaChartComponent from './components/chartComponents/archive/AreaChart.js'
 import CanvasChart from "./components/chartComponents/CanvasChart";
+import CanvasC from "./components/chartComponents/canv";
+
 export const App=()=>{
-useEffect(()=>{
-	//test()
-},[])
+	const refEl=useRef(null)
+
 	return (
-		<div>
-			{/*<h1>При вет, GfffGG</h1>*/}
-			{/*<AreaChartComponent/>*/}
 			<CanvasChart/>
-		</div>
 	)
 }

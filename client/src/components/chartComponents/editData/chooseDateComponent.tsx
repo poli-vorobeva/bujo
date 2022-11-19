@@ -1,13 +1,13 @@
 import {ReactPropTypes, useEffect, useState} from "react";
 import React from 'react'
-import './styles.css'
-import {typeItem} from "../chartComponents/mockData";
+import '../../ui/styles.css'
+import {typeItem} from "../mockData";
 
 export type chooseDateComponent = {
 	data: number, from: number, to: number
 }
 const timeArray = [18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-const ChooseTimeComponent = (props: { text: string ,getTime: (data: number) => void,timeArr:number[] }) => {
+const ChooseTimeComponent = (props: { text: string ,getTime: (data: number) => void,timeArr:number[]}) => {
 //console.log(props.timeArr,'#$#$')
 	return (
 		<>
