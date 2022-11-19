@@ -4,7 +4,7 @@ import { colors } from "../styles/variables";
 import Button from "./ButtonStyled";
 import Title from "./TitleStyled";
 
-const ChangeFormStyled = styled.div <{ mode: string }>`
+const ChangeFormStyled = styled.div<{ mode: string }>`
   position: absolute;
   left: ${({ mode }) => (mode === "signin" ? "0px" : "50%")};
   display: flex;
@@ -26,15 +26,16 @@ interface IChangeForm {
 const ChangeForm = (props: IChangeForm) => {
   return (
     <ChangeFormStyled mode={props.mode}>
-      <Title color={colors.light} >
-        {props.title}
-      </Title>
-      <Button bg={colors.bright} textColor={colors.light} onClick={props.handleSubmit}>
+      <Title color={colors.light}>{props.title}</Title>
+      <Button
+        bg={colors.bright}
+        textColor={colors.light}
+        onClick={props.handleSubmit}
+      >
         {props.buttonTitle}
       </Button>
     </ChangeFormStyled>
   );
 };
-
 
 export default ChangeForm;

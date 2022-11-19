@@ -91,13 +91,18 @@ const SchemaIn = yup.object({
     .min(6, "Must have at least 6 characters")
     .required("This field is required"),
 });
-// const SchemaUp = yup.object({
-//  SchemaIn,  name:yup
-//  .string()
-//  .min(2, "Too Short!")
-//  .max(15, "Must be 15 characters or less")
-//  .required("This field is required"),
-// });
+const SchemaUp = yup.object({
+  email: yup.string().email("Invalid email").required("This field is required"),
+  password: yup
+    .string()
+    .min(6, "Must have at least 6 characters")
+    .required("This field is required"),
+  name: yup
+    .string()
+    .min(2, "Too Short!")
+    .max(15, "Must be 15 characters or less")
+    .required("This field is required"),
+});
 
 interface ITextForm {
   mode: string;
@@ -126,7 +131,7 @@ const SignupForm = (props: ITextForm) => {
           email: "",
           name: "",
         }}
-        validationSchema={SchemaIn}
+        validationSchema={props.mode === "signin" ? SchemaIn : SchemaUp}
         onSubmit={(values, { setSubmitting }) => {
           props.mode === "signup"
             ? props

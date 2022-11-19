@@ -3,23 +3,23 @@ import styled from "styled-components";
 import React, { useState } from "react";
 
 interface ITextProp {
-    label: string;
-    name: string;
-    type: string;
-    placeholder: string;
-  }
+  label: string;
+  name: string;
+  type: string;
+  placeholder: string;
+}
 
 const ErrorMessageStyled = styled.div`
   color: red;
 `;
 
-const TextInputStyled = styled.div <{  }>`
+const TextInputStyled = styled.div<{}>`
   padding: 20px 0;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%; 
+  width: 100%;
 `;
 
 const TextInput = (props: ITextProp) => {

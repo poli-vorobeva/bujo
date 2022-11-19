@@ -23,40 +23,36 @@ const ContainerStyled = styled.div`
   position: relative;
 `;
 
-
 const signin = {
   title: "Sign In",
   nameButton: "Login",
   changeTitle: "Create account",
-  changeButtonName: "sign up"
-}
+  changeButtonName: "sign up",
+};
 
 const signup = {
   title: "Sign Up",
   nameButton: "Register",
   changeTitle: "Have an account?",
-  changeButtonName: "sign in"
-}
+  changeButtonName: "sign in",
+};
 
 const Auth = () => {
-  const [mode, setMode] = useState("signin")
+  const [mode, setMode] = useState("signin");
   const handleChangeButton = () => {
-    (mode === "signin" ? setMode("signup") : setMode("signin"))
-  }
-  const prop = (mode === "signin") ? signin : signup;
-  
+    mode === "signin" ? setMode("signup") : setMode("signin");
+  };
+  const prop = mode === "signin" ? signin : signup;
 
   return (
     <Overlay>
       <ContainerStyled>
-        <AuthForm mode={mode} 
-                    title={prop.title} 
-                    buttonName={prop.nameButton} 
-        />
-        <ChangeForm mode={mode} 
-                    buttonTitle={prop.changeButtonName} 
-                    handleSubmit={handleChangeButton} 
-                    title={prop.changeTitle} 
+        <AuthForm mode={mode} title={prop.title} buttonName={prop.nameButton} />
+        <ChangeForm
+          mode={mode}
+          buttonTitle={prop.changeButtonName}
+          handleSubmit={handleChangeButton}
+          title={prop.changeTitle}
         />
       </ContainerStyled>
     </Overlay>

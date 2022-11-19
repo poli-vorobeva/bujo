@@ -13,7 +13,7 @@ const firebaseConfig = {
   storageBucket: "bujo-team.appspot.com",
   messagingSenderId: "385178184665",
   appId: "1:385178184665:web:0d68e766f9deaff1c407c8",
-  measurementId: "G-43CSMVD8YS"
+  measurementId: "G-43CSMVD8YS",
 
   // apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   // authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
