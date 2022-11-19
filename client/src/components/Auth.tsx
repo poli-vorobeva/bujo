@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
-import { colors } from "../variables";
+import { colors } from "../styles/variables";
 import bgForm from "../../public/images/sunset.jpg";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../dto";

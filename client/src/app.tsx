@@ -4,7 +4,7 @@ import CanvasChart from "./components/chartComponents/CanvasChart";
 import { useSelector, useDispatch } from "react-redux";
 import Main from "./components/main";
 import { Routes, Route, HashRouter } from "react-router-dom";
-import GlobalStyles from "./global";
+import GlobalStyles from "./styles/global";
 import Auth from "./components/Auth";
 interface IPage {
   activePage: { page: string };
