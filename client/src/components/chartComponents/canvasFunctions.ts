@@ -1,4 +1,4 @@
-import { typeDataForChart } from "./mockData";
+import { typeDataForChart } from "./notUsed/mockData";
 
 export const drawXAxis = (
   ctx: CanvasRenderingContext2D,

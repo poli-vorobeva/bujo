@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import {useState} from "react";
 import styled from "styled-components";
+// @ts-ignore
 import bgForm from "../../public/images/sunset.jpg";
 import AuthForm from "../components/AuthForm";
 import ChangeForm from "../components/ChangeForm";
+import {useDispatch, useSelector, useStore} from "react-redux";
+import {getCanvasData} from "../reducer/canvasChartData";
+import {AppDispatch, IUser} from "../components/main";
+import * as React from "react";
+// @ts-ignore
+import {Redirect, redirect} from "react-router";
 
 const Overlay = styled.div`
   width: 100%;
@@ -23,40 +30,42 @@ const ContainerStyled = styled.div`
   position: relative;
 `;
 
+//todo no global vars
+
 const signin = {
-  title: "Sign In",
-  nameButton: "Login",
-  changeTitle: "Create account",
-  changeButtonName: "sign up",
+	title: "Sign In",
+	nameButton: "Login",
+	changeTitle: "Create account",
+	changeButtonName: "sign up",
 };
 
 const signup = {
-  title: "Sign Up",
-  nameButton: "Register",
-  changeTitle: "Have an account?",
-  changeButtonName: "sign in",
+	title: "Sign Up",
+	nameButton: "Register",
+	changeTitle: "Have an account?",
+	changeButtonName: "sign in",
 };
 
 const Auth = () => {
-  const [mode, setMode] = useState("signin");
-  const handleChangeButton = () => {
-    mode === "signin" ? setMode("signup") : setMode("signin");
-  };
-  const prop = mode === "signin" ? signin : signup;
+	const [mode, setMode] = useState("signin");
+	const handleChangeButton = () => {
+		mode === "signin" ? setMode("signup") : setMode("signin");
+	};
+	const prop = mode === "signin" ? signin : signup;
 
-  return (
-    <Overlay>
-      <ContainerStyled>
-        <AuthForm mode={mode} title={prop.title} buttonName={prop.nameButton} />
-        <ChangeForm
-          mode={mode}
-          buttonTitle={prop.changeButtonName}
-          handleSubmit={handleChangeButton}
-          title={prop.changeTitle}
-        />
-      </ContainerStyled>
-    </Overlay>
-  );
+	return (
+		<Overlay>
+			<ContainerStyled>
+				<AuthForm mode={mode} title={prop.title} buttonName={prop.nameButton}/>
+				<ChangeForm
+					mode={mode}
+					buttonTitle={prop.changeButtonName}
+					handleSubmit={handleChangeButton}
+					title={prop.changeTitle}
+				/>
+			</ContainerStyled>
+		</Overlay>
+	);
 };
 
 export default Auth;
