@@ -1,273 +1,47 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
-import { barRangeData, typeDataForChart, typeItem } from "./mockData";
-import {
-  drawCircle,
-  drawXAxis,
-  drawYAxis,
-  getXAxisData,
-  getYAxisData,
-  horizontalLine,
-  sortDefault,
-  text,
-  verticalLine,
-} from "./canvasFunctions";
-import ChooseDateComponent, {
-  chooseDateComponent,
-} from "../ui/chooseDateComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { changeCanvasData, getCanvasData } from "../../reducer/canvasChartData";
-import store from "../../store";
-import Button from "../ButtonStyled";
-import {Link} from "react-router-dom";
-import {Redirect} from "react-router";
-export type AppDispatch = typeof store.dispatch;
-export interface IUser {
-  userData: {
-    email: string;
-    password: string;
-    name: string;
-  };
-}
-interface IDataChart {
-  canvasDataChart: {
-    data: typeDataForChart;
-  };
-}
+import {useEffect, useRef, useState} from "react";
+import {chooseDateComponent} from "./editData/chooseDateComponent";
+import CanvasComponent from "./canv";
+import EditDataComponent from "./editData/editDataComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {stateType} from "../../store";
+import {AppDispatch} from "../../dto";
+import {getCanvasData} from "../../reducer/canvasChartData";
+import {useNavigate} from "react-router-dom";
+
 const CanvasChart = (props: any) => {
-  console.log("&&&&&&&CANVAS")
-  //need to get user data
-  const [xPointToDrawData, setXPointsToDrawData] = useState(null);
-  const [yPointToDrawData, setYPointsToDrawData] = useState(null);
-  const canvasRef = useRef(null);
-  const canvasCtxRef = useRef(null);
+	const canvasWrapperRef = useRef(null)
+	const [canvasElement, setCanvasElement] = useState(null)
+	const barsData = useSelector((state: stateType) => state.canvasDataChart.data)
+	const email = useSelector((state: stateType) => state.userData.email)
+	const dispatch = useDispatch<AppDispatch>();
+	const nav = useNavigate()
 
-  const dispatch = useDispatch<AppDispatch>();
+	useEffect(() => {
+		if (!barsData.length) return
+		setCanvasElement(new CanvasComponent(canvasWrapperRef.current, 700, 500, barsData))
+	}, [barsData])
 
-  const barRangeData = useSelector(
-    (state: IDataChart) => state.canvasDataChart.data
-  );
-  if(!barRangeData.length){
-  // <Redirect to = '/'/>
-return
-  }
-  console.log(barRangeData,'#')
-  const xStepsData = getXAxisData(barRangeData, "day"); //from data
-  const yStepsData = [
-    18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-  ].reverse(); //sortDefault(getYAxisData(barRangeData, 'time'))
-  const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
-  const [xAxisPoints, setXAxisPoints] = useState([]);
-  const [yAxisPoints, setYAxisPoints] = useState([]);
-  const [newDayData, setNewDayData] = useState(null);
-  const [addDateData, setAddData] = useState(false);
-  const [addDataDates, setAddDataDates] = useState([]);
-  const [editDateDates, setEditDataDates] = useState([]);
-  const [editDateData, setEditData] = useState(false);
-  const drawBar = (xCoord: number, yCoords: number[]) => {
-    drawCircle(canvasCtxRef.current, xCoord, yCoords[0], 2);
-    drawCircle(canvasCtxRef.current, xCoord, yCoords[1], 2);
-    verticalLine(canvasCtxRef.current, xCoord, yCoords[0], yCoords[1]);
-  };
-  const drawXAxisData = () => {
-    const xData = new Map();
-    xAxisPoints.forEach((p, i) => {
-      verticalLine(canvasCtxRef.current, startX + p, startY, startY - 5);
-      text(canvasCtxRef.current, xStepsData[i], startX + p, startY + 20);
-      xData.set(xStepsData[i], startX + p);
-    });
-    setXPointsToDrawData(xData);
-  };
+	useEffect(() => {
+		!email
+			? nav('/')
+			: dispatch(getCanvasData({email}))
+	}, [])
 
-  const drawYAxisData = () => {
-    const reverseSteps = yAxisPoints.slice().reverse();
-    const topYOffset = canvasRef.current.height * 0.1;
-    const yData = new Map();
-    reverseSteps.forEach((p, i) => {
-      horizontalLine(canvasCtxRef.current, startX, startX + 5, p + topYOffset);
-      text(
-        canvasCtxRef.current,
-        "" + yStepsData[i],
-        startX - 20,
-        p + topYOffset
-      );
-      yData.set(yStepsData[i], p + topYOffset);
-    });
-    setYPointsToDrawData(yData);
-  };
-  const getXCoord = (data: string) => xPointToDrawData?.get(data);
-  const getYCoord = (data: number) => yPointToDrawData?.get(data);
-  const axis = (ctx: CanvasRenderingContext2D) => {
-    drawXAxis(
-      canvasCtxRef.current,
-      canvasCtxRef.current.canvas.width,
-      canvasCtxRef.current.canvas.height
-    );
-    drawYAxis(
-      canvasCtxRef.current,
-      canvasCtxRef.current.canvas.width,
-      canvasCtxRef.current.canvas.height
-    );
-  };
-  const getOneBarCoords = <U extends keyof typeItem>(
-    day: typeItem,
-    xKey: U,
-    yKey: U
-  ) => {
-    return {
-      x: getXCoord(day[xKey] as string),
-      y: (day[yKey] as number[]).map((d) => getYCoord(d)),
-    };
-  };
-  const drawOneBarOnCanvas = <U extends keyof typeItem>(
-    day: typeItem,
-    xKey: U,
-    yKey: U
-  ) => {
-    const { x, y } = getOneBarCoords(day, xKey, yKey);
-    //console.log("x,y,", x, y);
-    //console.log(barRangeData, "RR");
-    drawBar(x, y);
-  };
-  //todo draw Cells yline is connect with day, and on hover on dayLine we define time
-  const drawBarsOnCanvas = <U extends keyof typeItem>(
-    data: typeDataForChart,
-    xKey: U,
-    yKey: U
-  ) => {
-    if (
-      !xPointToDrawData ||
-      !xPointToDrawData.size ||
-      !yPointToDrawData ||
-      !yPointToDrawData.size
-    )
-      return;
-    data.forEach((d) => drawOneBarOnCanvas(d, xKey, yKey));
-  };
-  const draw = (ctx: CanvasRenderingContext2D) => {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = "#98d2c0";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    axis(ctx);
-  };
-  const deleteBarFromCanvas = <U extends keyof typeItem>(
-    day: typeItem,
-    xKey: U,
-    yKey: U
-  ) => {
-    const coords = getOneBarCoords(day, "day", "time");
-    canvasCtxRef.current.clearRect(
-      coords.x - 5,
-      coords.y[1] - 5,
-      10,
-      coords.y[0] - coords.y[1] + 10
-    );
-    canvasCtxRef.current.fillStyle = "#ffc"; //'#98d2c0'
-    canvasCtxRef.current.fillRect(
-      coords.x - 5,
-      coords.y[1] - 5,
-      10,
-      coords.y[0] - coords.y[1] + 10
-    );
-  };
-
-  useEffect(
-    () => drawBarsOnCanvas(barRangeData, "day", "time"),
-    [yPointToDrawData]
-  );
-  useEffect(() => {
-    drawXAxisData();
-    drawYAxisData();
-  }, [xAxisPoints]);
-  const getPoints = (canvasWidth: number, array: any[]) => {
-    const steps: number[] = [];
-    const stepSize = canvasWidth / array.length;
-    for (let i = 1; i <= array.length; i++) {
-      steps.push(i * stepSize);
-    }
-    return steps;
-  };
-  const addBarToDataObject = (data: chooseDateComponent) => {
-    dispatch(
-      changeCanvasData({
-        day: String(data.data),
-        timeFrom: data.from,
-        timeTo: data.to,
-      })
-    );
-    //console.log(el)
-    //const el = barRangeData.find((e) => +e.day == data.data);
-    //отправка на сервер
-    //el.time = [data.from, data.to];
-    return { day: String(data.data), time: [data.from, data.to] };
-  };
-  useEffect(() => {
-    draw(canvasCtxRef.current);
-    if (startX && startY) {
-      const cnv = canvasRef.current;
-      setXAxisPoints(getPoints(cnv.width * 0.8, xStepsData));
-      setYAxisPoints(getPoints(cnv.height * 0.8, yStepsData));
-    }
-  }, [startX]);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    canvasCtxRef.current = context;
-    setStartX(context.canvas.width * 0.1);
-    setStartY(context.canvas.height * 0.9);
-  }, []);
-  useEffect(() => {
-    if (!newDayData) return;
-    const newEl = addBarToDataObject(newDayData);
-    console.log(newEl, "newEl");
-    drawOneBarOnCanvas(newEl, "day", "time");
-  }, [newDayData]);
-  return (
-    <div>
-      <Button
-        onClick={() => {
-          setAddDataDates(barRangeData.filter((e) => !e.time.length));
-          setAddData(true);
-        }}
-      >
-        Add Data
-      </Button>
-      <Button
-        onClick={() => {
-          setEditDataDates(barRangeData.filter((e) => e.time.length));
-          setEditData(true);
-        }}
-      >
-        Change Data
-      </Button>
-      {addDateData && (
-        <ChooseDateComponent
-          dateArray={addDataDates}
-          handler={(data) => {
-            drawOneBarOnCanvas(addBarToDataObject(data), "day", "time");
-            setAddData(false);
-          }}
-        />
-      )}
-      {editDateData && (
-        <ChooseDateComponent
-          dateArray={editDateDates}
-          handler={(data) => {
-            deleteBarFromCanvas(
-              barRangeData.find((e) => +e.day == data.data),
-              "day",
-              "time"
-            );
-            setNewDayData(data);
-            setEditData(false);
-          }}
-        />
-      )}
-
-      <canvas width={800} height={500} ref={canvasRef} />
-    </div>
-  );
-};
-export default CanvasChart;
+	const editDataHandler = (data: chooseDateComponent, action: string) => {
+		//если есть- то удвляем с канваса
+		//обновляем данные
+		//дорисовываем бар
+		if (action === 'edit') {
+			canvasElement.deleteFromCanvas(data)//1
+		}
+		canvasElement.addBar(data)
+	}
+	return (
+		<>
+			<EditDataComponent editDataHandler={editDataHandler}/>
+			<div ref={canvasWrapperRef}/>
+		</>
+	)
+}
+export default CanvasChart

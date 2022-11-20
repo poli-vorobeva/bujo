@@ -1,7 +1,7 @@
 import { ReactPropTypes, useEffect, useState } from "react";
 import React from "react";
 import "./styles.css";
-import { typeItem } from "../chartComponents/mockData";
+import { typeItem } from "../chartComponents/notUsed/mockData";
 
 export type chooseDateComponent = {
   data: number;

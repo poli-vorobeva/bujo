@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Formik, Form, useField } from "formik";
 import { colors } from "../styles/variables";
 import { SchemaAuth } from "../validation";
-import React from "react";
 import TextInput from "./TextInputWithLabel";
 import Title from "./TitleStyled";
 import Button from "./ButtonStyled";
