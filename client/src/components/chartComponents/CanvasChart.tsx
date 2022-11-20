@@ -6,7 +6,7 @@ import EditDataComponent from "./editData/editDataComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {stateType} from "../../store";
 import {AppDispatch} from "../../dto";
-import {getCanvasData} from "../../reducer/canvasChartData";
+import {editCanvasData, getCanvasData} from "../../reducer/canvasChartData";
 import {useNavigate} from "react-router-dom";
 
 const CanvasChart = (props: any) => {
@@ -19,6 +19,12 @@ const CanvasChart = (props: any) => {
 
 	useEffect(() => {
 		if (!barsData.length) return
+		console.log("###$$$")
+		if(canvasElement){
+			//canvasElement.destroy()
+			canvasWrapperRef.current.innerHTML=null
+			setCanvasElement(null)
+		}
 		setCanvasElement(new CanvasComponent(canvasWrapperRef.current, 700, 500, barsData))
 	}, [barsData])
 
@@ -35,7 +41,9 @@ const CanvasChart = (props: any) => {
 		if (action === 'edit') {
 			canvasElement.deleteFromCanvas(data)//1
 		}
-		canvasElement.addBar(data)
+		dispatch(editCanvasData({email, data}))
+		//todo redraw(
+	//	canvasElement.addBar(data)
 	}
 	return (
 		<>

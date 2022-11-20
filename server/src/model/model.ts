@@ -42,8 +42,12 @@ export default class Model {
         return true
     }
 
-    changeData( day: string,timeFrom: number, timeTo: number){
+    changeData( email:string,day: string,timeFrom: number, timeTo: number){
+        //todo request to database by email
+        console.log(this.dataUser)
+        console.log("DAY",day)
         const el = this.dataUser.find(el=>el.day==day);
+        console.log(el)
         if(el){
             el.time = [timeFrom, timeTo];
         }

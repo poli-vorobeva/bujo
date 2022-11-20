@@ -36,22 +36,23 @@ export default class CanvasComponent extends Control {
 		this.ctx.fillRect(0, 0, this.width, this.height)
 	}
 
-	deleteFromCanvas(data: chooseDateComponent) {
-		//console.log(barRangeData.find(e => +e.day == data.data),'Del')
-		this.bars.deleteBarFromCanvas(this.dataToDraw.find(e => +e.day == data.data), 'day', 'time')
-		//	this.addBarToDataObject(data)
-	}
+	// deleteFromCanvas(data: chooseDateComponent) {
+	// 	//console.log(barRangeData.find(e => +e.day == data.data),'Del')
+	// 	this.bars.deleteBarFromCanvas(this.dataToDraw.find(e => +e.day == data.data), 'day', 'time')
+	// 	//	this.addBarToDataObject(data)
+	// }
 
-	addBar(data: chooseDateComponent) {
-		//console.log(data)
-		this.addBarToDataObject(data)
-		this.bars.drawOneBarOnCanvas(this.dataToDraw.find(e => +e.day == data.data), 'day', 'time')
+	// addBar(data: chooseDateComponent) {
+	// 	//console.log(data)
+	// 	this.addBarToDataObject(data)
+	// 	this.bars.drawOneBarOnCanvas(this.dataToDraw.find(e => +e.day == data.data), 'day', 'time')
+	//
+	// }
 
-	}
-
-	addBarToDataObject (data: chooseDateComponent) {
-		const el = this.dataToDraw.find(e => +e.day == data.data)
-		el.time = [data.from, data.to]
-		return el
-	}
+// 	addBarToDataObject (data: chooseDateComponent) {
+// 		const el = this.dataToDraw.find(e => +e.day == data.data)
+// //todo
+// 		el.time = [data.from, data.to]
+// 		return el
+// 	}
 }

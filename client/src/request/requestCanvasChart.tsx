@@ -1,4 +1,6 @@
 import { IResponseCanvasChart } from "../dto";
+import {chooseDateComponent} from "../components/ui/chooseDateComponent";
+import {typeChangedData} from "../reducer/canvasChartData";
 
 export async function requestCanvasChart(
   email: string
@@ -28,9 +30,8 @@ export interface IDataChange {
   timeTo: number;
 }
 
-export async function requestCanvasChartChange(
-  data: IDataChange
-): Promise<IResponseCanvasChart> {
+export async function requestCanvasChartChange( payload: typeChangedData)
+  : Promise<IResponseCanvasChart> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'
@@ -41,7 +42,7 @@ export async function requestCanvasChartChange(
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       }
     );
     return response.json();

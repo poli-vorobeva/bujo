@@ -27,7 +27,7 @@ const ChooseTimeComponent = (props: { text: string ,getTime: (data: number) => v
 }
 const ChooseDateComponent = ({handler, dateArray}
 															 : { handler: (data: chooseDateComponent) => void, dateArray: typeItem[] }) => {
-
+console.log(dateArray,'DaAr')
 	const [daysInMonth, setDaysInMonth] = useState([])
 	const [hideMonthComponent, setHideMonthComponent] = useState(false)
 	const [showFirstDate, setShowFirstDate] = useState(false)

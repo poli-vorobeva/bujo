@@ -10,6 +10,7 @@ const EditDataComponent = (props: { editDataHandler: (data: chooseDateComponent,
 	const [datesData, setDatesData] = useState([])
 	const [editDateData, setEditData] = useState(false)
 	const buttonsHandler = (datesArray: typeItem[], mark: string) => {
+		console.log(datesArray,'butHand')
 		setDatesData(datesArray)
 		setAddData(mark === 'add')
 		setEditData(mark !== 'add')
