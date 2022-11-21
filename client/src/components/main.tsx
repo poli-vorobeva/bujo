@@ -22,6 +22,7 @@ const Main = () => {
     <div>
       <div>Hello, {name}</div>
       <Link to="/canvasChart">Canvas chart</Link>
+      <Link to='/habitTracker'>Habbit tracker</Link>
     </div>
   );
 };
