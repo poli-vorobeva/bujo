@@ -1,4 +1,5 @@
 export type typeItem = { day: string; time: Array<number> };
+import {dataHabbits} from './habbits'
 export type typeDataForChart = typeItem[];
 export const barRangeData: typeDataForChart = [
   {
@@ -128,10 +129,12 @@ export const barRangeData: typeDataForChart = [
 export const dataUsers = [
 {
     email: 'admin@admin.com',
-    data:barRangeData 
+    dataChart:barRangeData,
+    dataHabbits:dataHabbits,
 },
 {
     email: 'user@user.com',
-    data:barRangeData 
+    dataChart:barRangeData,
+    dataHabbits:dataHabbits,
 },
 ]

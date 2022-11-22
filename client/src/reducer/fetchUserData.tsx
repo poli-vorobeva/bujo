@@ -11,7 +11,7 @@ import { requestReg } from "../request/requestReg";
 // }
 
 const initialState = {
-  email: "admin",
+  email: "admin@admin.com",
   password: "admin",
   id: "",
   name: "admin",
@@ -95,13 +95,13 @@ const userSlise = createSlice({
         // Add user to the state array
         console.log("err");
         state.name = action.error.message;
-      });
-    builder.addCase(regUserData.fulfilled, (state, action) => {
-      // Add user to the state array
-      state.email = action.payload.email;
-      state.password = action.payload.password;
-      state.name = action.payload.name;
-    }),
+      }),
+      builder.addCase(regUserData.fulfilled, (state, action) => {
+        // Add user to the state array
+        state.email = action.payload.email;
+        state.password = action.payload.password;
+        state.name = action.payload.name;
+      }),
       builder.addCase(regUserData.rejected, (state, action) => {
         // Add user to the state array
         console.log("err");

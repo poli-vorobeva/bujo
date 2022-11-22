@@ -7,20 +7,22 @@ import { requestReg } from "../request/requestReg";
 import { typeDataForCanvasChart } from "../dto";
 
 const initialState = {
-  data: {},
+  data: new Array(30).fill(0).map((it, indx) => {
+    return { day: String(indx + 1), time: [] };
+  }),
 };
 interface IDataChart {
   data: typeDataForCanvasChart;
 }
 
 ///const dispatch = useDispatch<AppDispatch>();
-export interface IUser {
+export interface IUserEmail {
   email: string;
 }
 
 export const getCanvasData = createAsyncThunk(
   "getCanvasDataChart",
-  async ({ email }: IUser, thunkAPI) => {
+  async ({ email }: IUserEmail, thunkAPI) => {
     const response = await requestCanvasChart(email);
     if (response.status === "ok") {
       return {
@@ -51,7 +53,7 @@ export const changeCanvasData = createAsyncThunk(
 );
 
 const canvasCharSlice = createSlice({
-  name: "data",
+  name: "canvasCharData",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -61,10 +63,10 @@ const canvasCharSlice = createSlice({
     }),
       builder.addCase(getCanvasData.rejected, (state, action) => {
         console.log("err");
-      });
-    builder.addCase(changeCanvasData.fulfilled, (state, action) => {
-      state.data = action.payload.data;
-    }),
+      }),
+      builder.addCase(changeCanvasData.fulfilled, (state, action) => {
+        state.data = action.payload.data;
+      }),
       builder.addCase(changeCanvasData.rejected, (state, action) => {
         console.log("err");
       });

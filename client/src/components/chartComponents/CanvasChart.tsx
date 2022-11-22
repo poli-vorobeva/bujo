@@ -18,6 +18,7 @@ import ChooseDateComponent, {
 import { useDispatch, useSelector } from "react-redux";
 import { changeCanvasData, getCanvasData } from "../../reducer/canvasChartData";
 import store from "../../store";
+import { IUserData } from "../../dto";
 export type AppDispatch = typeof store.dispatch;
 export interface IUser {
   userData: {
@@ -32,12 +33,15 @@ interface IDataChart {
   };
 }
 const CanvasChart = (props: any) => {
-  const [xPointToDrawData, setXPointsToDrawData] = useState(null);
-  const [yPointToDrawData, setYPointsToDrawData] = useState(null);
+  //const email = useSelector((state: IUserData) => state.userData.email);
   const dispatch = useDispatch<AppDispatch>();
+  //dispatch(getCanvasData({ email }));
   const barRangeData = useSelector(
     (state: IDataChart) => state.canvasDataChart.data
   );
+
+  const [xPointToDrawData, setXPointsToDrawData] = useState(null);
+  const [yPointToDrawData, setYPointsToDrawData] = useState(null);
   const xStepsData = getXAxisData(barRangeData, "day"); //from data
   const yStepsData = [
     18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,

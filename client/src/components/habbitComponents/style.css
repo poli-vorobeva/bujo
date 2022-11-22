@@ -23,7 +23,7 @@
   border-left: 1px solid black;
 }
 
-input {
+input ,button{
     position: relative;
     z-index: 5;
     transform: scale(0.5);

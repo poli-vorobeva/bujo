@@ -8,7 +8,7 @@ import photosRouter from './routers/photosRouter'
 import testAuthRouter from './routers/testAuthRouter'
 import testRegRouter from './routers/testRegRouter'
 import canvasChartRouter from './routers/canvasChartRouter'
-
+import habbitsRouter from './routers/habbitsRouter'
 //const mongoose = require('mongoose')
 //const fs = require('fs')
 const express=require('express')
@@ -25,7 +25,8 @@ const bodyParser = require('body-parser');
 app.use('/api/photos',cors(),photosRouter)
 app.use('/api/auth',cors(), testAuthRouter)
 app.use('/api/reg',cors(), testRegRouter);
-app.use('/api/canvaschart',cors(), canvasChartRouter)
+app.use('/api/canvaschart',cors(), canvasChartRouter);
+app.use('/api/habbits',cors(), habbitsRouter);
 // app.use('/api/categories',cors(), categoriesRouter);
 // app.use('/api/translates',translatesRouter);
 // app.use('/api/images',cors(),imagesRouter);

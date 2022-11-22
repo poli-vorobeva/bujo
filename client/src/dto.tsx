@@ -10,6 +10,14 @@ export interface IUser {
   };
 }
 
+export interface IUserData {
+  userData: {
+    email: string;
+    password: string;
+    name: string;
+  };
+}
+
 export interface IUserAuth {
   email: string;
   password: string;
@@ -34,4 +42,19 @@ export type typeDataForCanvasChart = typeItem[];
 export interface IResponseCanvasChart {
   status: string;
   data: typeDataForCanvasChart;
+}
+
+export interface IHabbit {
+  habbitName: string;
+  habbitId: string;
+  data: boolean[];
+}
+
+export interface IHabbitsData {
+  days: number;
+  habbits: IHabbit[];
+}
+export interface IResponseHabbits {
+  status: string;
+  data: IHabbitsData;
 }
