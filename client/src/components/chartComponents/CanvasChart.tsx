@@ -1,34 +1,36 @@
 import * as React from "react";
-import {useEffect, useRef, useState} from "react";
-import {barRangeData} from './mockData'
-import ChooseDateComponent, {chooseDateComponent} from "./editData/chooseDateComponent";
+import { useEffect, useRef, useState } from "react";
+import { barRangeData } from "./mockData";
+import ChooseDateComponent, {
+  chooseDateComponent,
+} from "./editData/chooseDateComponent";
 import CanvasComponent from "./canv";
 import ButtonsComponent from "./editData/ButtonsComponent";
 import EditDataComponent from "./editData/editDataComponent";
 
 const CanvasChart = (props: any) => {
-	const canvasWrapperRef = useRef(null)
-	const [canvasElement, setCanvasElement] = useState(null)
-	useEffect(() => {
-		setCanvasElement(new CanvasComponent(canvasWrapperRef.current, 700, 500))
-	}, [])
-	const editDataHandler=(data:chooseDateComponent,action:string)=>{
-		//если есть- то удвляем с канваса
-		//обновляем данные
-		//дорисовываем бар
-		if(action==='edit'){
-			canvasElement.deleteFromCanvas(data)//1
-		}
-		canvasElement.addBar(data)
-	}
-	return (
-		<>
-			<EditDataComponent editDataHandler={editDataHandler}/>
-			<div ref={canvasWrapperRef}/>
-		</>
-	)
-}
-export default CanvasChart
+  const canvasWrapperRef = useRef(null);
+  const [canvasElement, setCanvasElement] = useState(null);
+  useEffect(() => {
+    setCanvasElement(new CanvasComponent(canvasWrapperRef.current, 700, 500));
+  }, []);
+  const editDataHandler = (data: chooseDateComponent, action: string) => {
+    //если есть- то удвляем с канваса
+    //обновляем данные
+    //дорисовываем бар
+    if (action === "edit") {
+      canvasElement.deleteFromCanvas(data); //1
+    }
+    canvasElement.addBar(data);
+  };
+  return (
+    <>
+      <EditDataComponent editDataHandler={editDataHandler} />
+      <div ref={canvasWrapperRef} />
+    </>
+  );
+};
+export default CanvasChart;
 
 // import * as React from "react";
 // import {useEffect, useRef, useState} from "react";

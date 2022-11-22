@@ -11,10 +11,10 @@ const CanvasHabbit = () => {
   ) => {
     const canvasObj = canvasRef.current;
     const ctx = canvasObj.getContext("2d");
-     
+
     draw(ctx, { x: e.clientX - 50, y: e.clientY });
   };
-  console.log('canvas')
+  console.log("canvas");
   useEffect(() => {
     const canvasObj = canvasRef.current;
     const ctx = canvasObj.getContext("2d");
@@ -24,15 +24,31 @@ const CanvasHabbit = () => {
       { x: 100, y: 100 },
       { x: 200, y: 200 },
     ];
-   // coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
+    // coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
   }, []);
-
+  const handleDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    e.preventDefault();
+    const id = e.dataTransfer.getData("id");
+    const canvasObj = canvasRef.current;
+    const ctx = canvasObj.getContext("2d");
+    loadImage(id).then((img) => {
+      ctx.drawImage(img, x - 50, y - 50, 100, 100);
+    });
+  };
+  const handleDragOver = (e: React.DragEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
   return (
     <canvas
       onClick={handleCanvasClick}
       width={600}
       height={500}
       ref={canvasRef}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
     />
   );
 };
@@ -60,3 +76,13 @@ function draw(ctx: CanvasRenderingContext2D, location: ILocation) {
   // .restore(): Canvas 2D API restores the most recently saved canvas state
   ctx.restore();
 }
+
+const loadImage = (id: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      resolve(image);
+    };
+    image.src = "../../assets/png/" + id + ".png";
+  });
+};

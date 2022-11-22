@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Days from "./days";
 import Habbits from "./habbits";
 import CanvasHabbit from "./canvasHabbit";
-import Images from './images';
+import Images from "./images";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IHabbitsData, IUserData } from "../../dto";
@@ -32,7 +32,7 @@ const HabbitTrack = () => {
         <Habbits listOfHabbits={listOfHabbits.habbits} />
         <CanvasHabbit />
       </div>
-      <Images/>
+      <Images />
     </div>
   );
 };
