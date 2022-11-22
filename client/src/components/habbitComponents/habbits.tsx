@@ -4,6 +4,7 @@ import { AppDispatch, IHabbit } from "../../dto";
 import {
   changeHabbitsName,
   changeHabbitsInput,
+  addNewHabbit,
 } from "../../reducer/habbitsData";
 import Habbit from "./habbit";
 import Input from "./input";
@@ -23,6 +24,9 @@ const Habbits = ({ listOfHabbits }: IHabbits) => {
   };
   const handleInputHabbitName = (idHabbit: string, value: string) => {
     dispatch(changeHabbitsName({ idHabbit, value }));
+  };
+  const handleClickAddHabbit = () => {
+    dispatch(addNewHabbit());
   };
   const habbits = listOfHabbits.slice().map((it) => {
     return (
@@ -50,7 +54,7 @@ const Habbits = ({ listOfHabbits }: IHabbits) => {
   return (
     <>
       {habbits}
-      <button>Add new habbit</button>
+      <button onClick={handleClickAddHabbit}>Add new habbit</button>
     </>
   );
 };

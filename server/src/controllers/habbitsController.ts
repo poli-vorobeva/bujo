@@ -45,3 +45,18 @@ try{
 	})
 }
 }
+
+exports.addNewHabbit = (req:Request,res:Response)=>{
+try{
+	const userData = model.addNewHabbit()
+	//console.log('canvas',req.body.email);
+
+	res.status(201).json({status:'ok', data: userData})
+	
+}catch(e){
+	res.status(400).json({
+		status:'fail',
+		message:e
+	})
+}
+}

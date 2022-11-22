@@ -8,6 +8,8 @@ habbitsRouter.route('/')
 	.post(habbitsController.changeName)
 	habbitsRouter.route('/changeinput')
 	.post(habbitsController.changeInput)
-	//changeinput
+	habbitsRouter.route('/addnewhabbit')
+	.post(habbitsController.addNewHabbit)
+	//addnewhabbit
 
 export default habbitsRouter

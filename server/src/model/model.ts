@@ -85,4 +85,12 @@ export default class Model {
         }
         return this.habbitsData;
     }
+    addNewHabbit(){
+        this.habbitsData.habbits.push({
+            habbitName: '',
+            habbitId: String(Math.floor(Math.random()*100)),
+            data:new Array(21).fill(null).map(it=>false)
+        },);
+        return  this.habbitsData;
+    }
 }

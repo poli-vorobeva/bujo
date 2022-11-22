@@ -73,3 +73,21 @@ export async function requestHabbitsChangeInput(
     throw new Error(e);
   }
 }
+export async function requestHabbitAddNew(): Promise<IResponseHabbits> {
+  try {
+    const response = await fetch(
+      //'http://localhost:5000/'
+      "http://localhost:5000/api/" + "habbits/addnewhabbit",
+      {
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.json();
+  } catch (e) {
+    throw new Error(e);
+  }
+}
