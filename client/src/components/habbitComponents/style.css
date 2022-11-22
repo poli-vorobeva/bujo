@@ -1,5 +1,5 @@
 .habbit{
-    margin: 50px 50px;
+    margin: 0 50px;
     width: 600px;
     height: 500px;
     border: 1px solid black;
@@ -34,4 +34,8 @@
     top:0;
     left:0;
    z-index:1
+}
+
+.habbit_container{
+    display: flex;
 }

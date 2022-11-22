@@ -11,25 +11,26 @@ const CanvasHabbit = () => {
   ) => {
     const canvasObj = canvasRef.current;
     const ctx = canvasObj.getContext("2d");
-    // console.log(ctx)
-    draw(ctx, { x: e.clientX - 50, y: e.clientY - 50 });
+     
+    draw(ctx, { x: e.clientX - 50, y: e.clientY });
   };
+  console.log('canvas')
   useEffect(() => {
     const canvasObj = canvasRef.current;
     const ctx = canvasObj.getContext("2d");
-    ctx.clearRect(0, 0, 800, 500);
+    ctx.clearRect(0, 0, 600, 500);
 
     const coordinates = [
       { x: 100, y: 100 },
       { x: 200, y: 200 },
     ];
-    //coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
+   // coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
   }, []);
 
   return (
     <canvas
       onClick={handleCanvasClick}
-      width={800}
+      width={600}
       height={500}
       ref={canvasRef}
     />
