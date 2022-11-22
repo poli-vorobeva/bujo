@@ -1,24 +1,14 @@
 import * as React from "react";
 
-const TasksList=()=>{
-	const tasksListMockData = [
-		{name: 'one', category: 'study'},
-		{name: 'two', category: 'study'},
-		{name: 'three', category: 'study'}]
-// 	const getAllTasks=()=> {
-// 	//	return this.tasksListData
-// 	}
-//
-// public addTaskToList(taskData: { name: string; category: string }) {
-// 		this.tasksListData.push(taskData)
-// 		this.createTaskLi(taskData.name)
-// 	}
+export type tTask={ task: string, category: string }
+export type tTasksList=tTask[]
 
+const TasksList=({tasks}: { tasks:tTasksList })=>{
 	return(
 		<ul>
 			{
-				tasksListMockData.map(task=>{
-					return <li>{task.name}</li>
+				tasks.map(task=>{
+					return <li>{task.task}</li>
 				})
 			}
 		</ul>

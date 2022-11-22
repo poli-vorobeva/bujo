@@ -19,9 +19,7 @@ const CanvasChart = (props: any) => {
 
 	useEffect(() => {
 		if (!barsData.length) return
-		console.log("###$$$")
 		if(canvasElement){
-			//canvasElement.destroy()
 			canvasWrapperRef.current.innerHTML=null
 			setCanvasElement(null)
 		}
@@ -35,15 +33,10 @@ const CanvasChart = (props: any) => {
 	}, [])
 
 	const editDataHandler = (data: chooseDateComponent, action: string) => {
-		//если есть- то удвляем с канваса
-		//обновляем данные
-		//дорисовываем бар
-		if (action === 'edit') {
+	if (action === 'edit') {
 			canvasElement.deleteFromCanvas(data)//1
 		}
 		dispatch(editCanvasData({email, data}))
-		//todo redraw(
-	//	canvasElement.addBar(data)
 	}
 	return (
 		<>

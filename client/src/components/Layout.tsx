@@ -10,7 +10,7 @@ width:100vw;
 
 const PageNav= styled.nav`
 position:relative;
-left:-100px;
+
 background:orange;
 display:flex;
 flex-flow:column nowrap;
@@ -33,7 +33,7 @@ const Layout = () => {
 			<PageNav
 				onMouseLeave={()=>setAsideHover(!asideHover)}
 				onMouseEnter={()=>setAsideHover(!asideHover)}
-				style={{transform:asideHover?"translate(100px)":"translate(0)"}}
+				//style={{transform:asideHover?"translate(100px)":"translate(0)"}}
 			>
 				{
 					Object.entries(navLinks).map(link=>{
@@ -41,8 +41,10 @@ const Layout = () => {
 					})
 				}
 			</PageNav>
-			<Outlet/>
-			<footer>footer</footer>
+			<div style={{display:'flex', flexFlow:'column',justifyContent:'space-between'}}>
+				<Outlet/>
+				<footer>footer</footer>
+			</div>
 		</LayoutStyled>
 	)
 }
