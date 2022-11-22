@@ -25,7 +25,7 @@ const HabbitTrack = () => {
   );
   return (
     <>
-      <div className="main">
+      <div className="habbit">
         <p></p>
         <Days count={listOfHabbits.days} />
         <Habbits listOfHabbits={listOfHabbits.habbits} />

@@ -1,3 +1,4 @@
+<<<<<<< HEAD:client/src/components/ui/chooseDateComponent.tsx
 import { ReactPropTypes, useEffect, useState } from "react";
 import React from "react";
 import "./styles.css";
@@ -55,6 +56,32 @@ const ChooseDateComponent = ({
   };
   const hideFirstStep = () =>
     setDaysInMonth((prev) => dateArray.map((el) => el.day));
+=======
+import {ReactPropTypes, useEffect, useState} from "react";
+import React from 'react'
+import '../../ui/styles.css'
+import {typeItem} from "../mockData";
+
+export type chooseDateComponent = {
+	data: number, from: number, to: number
+}
+const timeArray = [18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+const ChooseTimeComponent = (props: { text: string ,getTime: (data: number) => void,timeArr:number[]}) => {
+//console.log(props.timeArr,'#$#$')
+	return (
+		<>
+			<div>
+				{props.text}
+			</div>
+			<div className='chooseDateComponent'>
+				{
+					props.timeArr.map(e => {
+						return <span onClick={() => props.getTime(e)}>{e}</span>
+					})
+				}
+			</div>
+		</>
+>>>>>>> 877f594a7e7cafc357d1dd40e308bbad988321f8:client/src/components/chartComponents/editData/chooseDateComponent.tsx
 
   useEffect(() => {
     if (!dataToAdd.to) return;

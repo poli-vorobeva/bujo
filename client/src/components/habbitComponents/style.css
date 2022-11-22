@@ -1,4 +1,4 @@
-.main{
+.habbit{
     margin: 50px 50px;
     width: 600px;
     height: 500px;
@@ -23,13 +23,13 @@
   border-left: 1px solid black;
 }
 
-input ,button{
+.habbit input ,button{
     position: relative;
     z-index: 5;
     transform: scale(0.5);
 }
 
-canvas{
+.habbit canvas{
    position: absolute;
     top:0;
     left:0;
