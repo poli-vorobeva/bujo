@@ -1,9 +1,9 @@
 import React from "react";
-import {useDispatch, useSelector, useStore} from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppDispatch, IUserData } from "../dto";
 import { getCanvasData } from "../reducer/canvasChartData";
-import store, {stateType} from "../store";
+import store, { stateType } from "../store";
 import userData from "../reducer/fetchUserData";
 export interface IUser {
   userData: {
@@ -13,9 +13,8 @@ export interface IUser {
   };
 }
 
-
 const Main = () => {
-  const name = useSelector((state:stateType) => state.userData.name)
+  const name = useSelector((state: stateType) => state.userData.name);
   // const name = useSelector((state: IUser) => state.userData.name);
   // const email = useSelector((state: IUser) => state.userData.email);
   // const dispatch = useDispatch<AppDispatch>();

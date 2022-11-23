@@ -9,6 +9,7 @@ import Auth from "./components/Auth";
 import Layout from "./components/Layout";
 import WeeksTasks from "./pages/WeeksTasks";
 import NotFountPage from "./pages/NotFoundPage";
+import HabbitTrack from "./components/habbitComponents";
 interface IPage {
   activePage: { page: string };
 }
@@ -18,12 +19,13 @@ export const App = () => {
     <HashRouter>
       <GlobalStyles />
       <Routes>
-        <Route path ="/" element={<Layout/>}>
-          <Route index element={<Auth />}/>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Auth />} />
           <Route path="main" element={<Main />} />
           <Route path="canvasChart" element={<CanvasChart />} />
-          <Route path="weeksTasks" element={<WeeksTasks/>}/>
-          <Route path="*" element={<NotFountPage/>}/>
+          <Route path="weeksTasks" element={<WeeksTasks />} />
+          <Route path="habbitsTracker" element={<HabbitTrack />} />
+          <Route path="*" element={<NotFountPage />} />
         </Route>
       </Routes>
     </HashRouter>

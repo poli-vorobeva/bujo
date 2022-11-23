@@ -15,7 +15,10 @@ const Image = ({ id }: IImage) => {
     //
     console.log("start");
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("id", id);
+    e.dataTransfer.setData("name", id);
+    e.dataTransfer.setData("id", String(Math.floor(Math.random() * 100)));
+    e.dataTransfer.setData("width", String(100));
+    e.dataTransfer.setData("height", String(100));
   };
   const handleDragMove = () => {};
   return (

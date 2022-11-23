@@ -1,49 +1,134 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { isReadable } from "stream";
 
 interface ILocation {
   x: number;
   y: number;
 }
+
+interface IImagesArray {
+  id: string;
+  name: string;
+  src: string;
+  coordinate: {
+    x: number;
+    y: number;
+  };
+  width: number;
+  height: number;
+  isMove: boolean;
+  img: Promise<HTMLImageElement>;
+}
+
 const CanvasHabbit = () => {
   const canvasRef = useRef(null);
-  const handleCanvasClick = (
-    e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
-  ) => {
-    const canvasObj = canvasRef.current;
-    const ctx = canvasObj.getContext("2d");
+  const [images, setImages] = useState<IImagesArray[]>([]);
+  const [ctx, setCtx] = useState(null);
 
-    draw(ctx, { x: e.clientX - 50, y: e.clientY });
-  };
-  console.log("canvas");
   useEffect(() => {
     const canvasObj = canvasRef.current;
-    const ctx = canvasObj.getContext("2d");
-    ctx.clearRect(0, 0, 600, 500);
-
-    const coordinates = [
-      { x: 100, y: 100 },
-      { x: 200, y: 200 },
-    ];
-    // coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
+    const context = canvasObj.getContext("2d");
+    context.clearRect(0, 0, 600, 500);
+    setCtx(context);
   }, []);
-  const handleDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
-    const x = e.clientX;
-    const y = e.clientY;
-    e.preventDefault();
-    const id = e.dataTransfer.getData("id");
-    const canvasObj = canvasRef.current;
-    const ctx = canvasObj.getContext("2d");
-    loadImage(id).then((img) => {
-      ctx.drawImage(img, x - 50, y - 50, 100, 100);
+
+  useEffect(() => {
+    Promise.all(images.map((it) => it.img)).then((img) => {
+      ctx.clearRect(0, 0, 600, 500);
+      console.log(images);
+      images.forEach((item, index) => {
+        ctx.drawImage(
+          img[index],
+          item.coordinate.x - 170,
+          item.coordinate.y - 50,
+          item.width,
+          item.height
+        );
+      });
     });
+  }, [images]);
+
+  const handleDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
+    const x = e.pageX;
+    const y = e.pageY;
+    e.preventDefault();
+    const name = e.dataTransfer.getData("name");
+    const id = e.dataTransfer.getData("id");
+    const widthImg = e.dataTransfer.getData("width");
+    const heightImg = e.dataTransfer.getData("height");
+    setImages((st) => [
+      ...st,
+      {
+        id,
+        name,
+        src: "../../assets/png/" + name + ".png",
+        coordinate: { x, y },
+        width: +widthImg,
+        height: +heightImg,
+        isMove: false,
+        img: loadImage("../../assets/png/" + name + ".png"),
+      },
+    ]);
+    // loadImage(id).then((img) => {
+    //   ctx.drawImage(img, x-120-50, y -50, 100, 100);
+    // });
   };
+
+  const handleMouseDown = (e: React.DragEvent<HTMLCanvasElement>) => {
+    for (let i = images.length - 1; i >= 0; i--) {
+      if (
+        isShape(
+          e,
+          images[i].coordinate.x,
+          images[i].coordinate.y,
+          images[i].width,
+          images[i].height
+        )
+      ) {
+        setImages(
+          images.map((item) =>
+            item.id === images[i].id ? { ...item, isMove: true } : item
+          )
+        );
+      }
+    }
+  };
+
   const handleDragOver = (e: React.DragEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   };
+
+  const handleMouseMove = (e: React.DragEvent<HTMLCanvasElement>) => {
+    images.forEach((it) => {
+      if (it.isMove) {
+        setImages(
+          images.map((item) =>
+            item.id === it.id
+              ? { ...item, coordinate: { x: e.pageX, y: e.pageY } }
+              : item
+          )
+        );
+      }
+    });
+  };
+
+  const handleMouseUp = (e: React.DragEvent<HTMLCanvasElement>) => {
+    images.forEach((it) => {
+      if (it.isMove) {
+        setImages(
+          images.map((item) =>
+            item.id === it.id ? { ...item, isMove: false } : item
+          )
+        );
+      }
+    });
+  };
   return (
     <canvas
-      onClick={handleCanvasClick}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
       width={600}
       height={500}
       ref={canvasRef}
@@ -77,12 +162,29 @@ function draw(ctx: CanvasRenderingContext2D, location: ILocation) {
   ctx.restore();
 }
 
-const loadImage = (id: string): Promise<HTMLImageElement> => {
+const loadImage = (src: string): Promise<HTMLImageElement> => {
+  console.log(src);
   return new Promise((resolve) => {
     const image = new Image();
     image.onload = () => {
       resolve(image);
     };
-    image.src = "../../assets/png/" + id + ".png";
+    image.src = src;
   });
+};
+
+const isShape = (
+  e: React.DragEvent<HTMLCanvasElement>,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+) => {
+  console.log(e.pageY, y - height / 2);
+  return (
+    e.pageX > x - width / 2 &&
+    e.pageX < x + width / 2 &&
+    e.pageY > y - height / 2 &&
+    e.pageY < y + height / 2
+  );
 };

@@ -44,7 +44,7 @@ const Habbits = ({ listOfHabbits }: IHabbits) => {
             check={el}
             key={ind}
             handleClick={() =>
-              handleClickCheckBox(it.habbitId, String(ind), !it)
+              handleClickCheckBox(it.habbitId, String(ind), !el)
             }
           />
         ))}
