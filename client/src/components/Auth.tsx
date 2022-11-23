@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { colors } from "../styles/variables";
 import bgForm from "../../public/images/sunset.jpg";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { AppDispatch } from "../dto";
 import { authUserData, regUserData } from "../reducer/fetchUserData";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import {IUser} from "./main";
+import {getCanvasData} from "../reducer/canvasChartData";
 
 interface ITextProp {
   label: string;
@@ -257,6 +259,17 @@ const signup = {
 
 const Auth = () => {
   const [mode, setMode] = useState("signin");
+  const name = useSelector((state: IUser) => state.userData.name);
+  const email = useSelector((state: IUser) => state.userData.email);
+  const nav = useNavigate()
+  useEffect(()=>{
+    if(!name && !email){
+
+    }else{
+      nav('/main')
+    }
+  },[])
+
   const handleChangeButton = () => {
     mode === "signin" ? setMode("signup") : setMode("signin");
   };
@@ -265,23 +278,23 @@ const Auth = () => {
   const dispatch = useDispatch<AppDispatch>();
   return (
     <Overlay>
-      <ContainerStyled>
-        <SignupForm
-          mode={mode}
-          title={prop.title}
-          buttonName={prop.nameButton}
-          onSubmitClick={dispatch}
-          navigate={navigate}
-        />
-        <ChangeForm
-          mode={mode}
-          buttonTitle={prop.changeButtonName}
-          style={{ textColor: "black", bg: "pink" }}
-          handleSubmit={handleChangeButton}
-          title={prop.changeTitle}
-        />
-      </ContainerStyled>
-    </Overlay>
+            <ContainerStyled>
+              <SignupForm
+                mode={mode}
+                title={prop.title}
+                buttonName={prop.nameButton}
+                onSubmitClick={dispatch}
+                navigate={navigate}
+              />
+              <ChangeForm
+                mode={mode}
+                buttonTitle={prop.changeButtonName}
+                style={{ textColor: "black", bg: "pink" }}
+                handleSubmit={handleChangeButton}
+                title={prop.changeTitle}
+              />
+            </ContainerStyled>
+          </Overlay>
   );
 };
 
