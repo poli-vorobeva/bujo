@@ -60,7 +60,11 @@ export default class Model {
     }
 
     changeImgBg(img:IImagesArray,type:string){
-        this.imgBg[type].find(it=>it.id ===img.id).coordinate = img.coordinate
+        this.imgBg[type].find(it=>it.id ===img.id).coordinate = img.coordinate;
+        return {data: this.imgBg[type], type: type};
+    }
+    changeBg(img:IImagesArray,type:string){
+        this.imgBg[type] = img;
         return {data: this.imgBg[type], type: type};
     }
 

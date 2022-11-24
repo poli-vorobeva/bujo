@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isReadable } from "stream";
+import { string } from "yup";
 import { AppDispatch, IImagesArray, IIntStBgImg, IUserData } from "../../dto";
 import {
   addImagesBgData,
@@ -9,14 +10,21 @@ import {
 interface IBgImgStore {
   imgBgData: IIntStBgImg;
 }
+interface ICanvas {
+  type: "habbitImg" | "habbitBg";
+  bg: "habbitBg";
+}
 
-const CanvasHabbit = () => {
+const Canvas = ({ type, bg }: ICanvas) => {
   const canvasRef = useRef(null);
   const [images, setImages] = useState<IImagesArray[]>([]);
   const [ctx, setCtx] = useState(null);
   const [imageId, nextImageId] = useState(0);
   const imgInState = useSelector(
-    (state: IBgImgStore) => state.imgBgData.data.habbitImgBg
+    (state: IBgImgStore) => state.imgBgData.data[type]
+  );
+  const bgInState = useSelector(
+    (state: IBgImgStore) => state.imgBgData.data[bg]
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -29,9 +37,13 @@ const CanvasHabbit = () => {
 
   useEffect(() => {
     setImages(imgInState);
+
     nextImageId(imgInState.length);
-    console.log(55555);
   }, [imgInState]);
+
+  useEffect(() => {
+    console.log(bgInState);
+  }, [bgInState]);
 
   useEffect(() => {
     if (!ctx) {
@@ -57,7 +69,8 @@ const CanvasHabbit = () => {
     const y = e.pageY;
     e.preventDefault();
     const name = e.dataTransfer.getData("name");
-    const id = "image_habbit" + imageId;
+    const id = type + imageId;
+    const src = e.dataTransfer.getData("src");
     nextImageId((id) => id + 1);
     const widthImg = e.dataTransfer.getData("width");
     const heightImg = e.dataTransfer.getData("height");
@@ -78,12 +91,12 @@ const CanvasHabbit = () => {
         data: {
           id,
           name,
-          src: "../../assets/png/" + name + ".png",
+          src,
           coordinate: { x, y },
           width: +widthImg,
           height: +heightImg,
         },
-        type: "habbitImgBg",
+        type,
       })
     );
     // loadImage(id).then((img) => {
@@ -92,7 +105,6 @@ const CanvasHabbit = () => {
   };
 
   const handleMouseDown = (e: React.DragEvent<HTMLCanvasElement>) => {
-    console.log(images);
     for (let i = images.length - 1; i >= 0; i--) {
       if (
         isShape(
@@ -135,8 +147,12 @@ const CanvasHabbit = () => {
   const handleMouseUp = (e: React.DragEvent<HTMLCanvasElement>) => {
     images.forEach((it) => {
       if (it.isMove) {
-        it.isMove = false;
-        dispatch(changeImagesBgData({ data: it, type: "habbitImgBg" }));
+        setImages(
+          images.map((item) =>
+            item.id === it.id ? { ...item, isMove: false } : item
+          )
+        );
+        dispatch(changeImagesBgData({ data: it, type }));
       }
     });
   };
@@ -154,7 +170,7 @@ const CanvasHabbit = () => {
   );
 };
 
-export default CanvasHabbit;
+export default Canvas;
 
 // const coordinates = [{x:50,y:100},{x:100,y:200}];
 //         coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});

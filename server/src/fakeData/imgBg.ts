@@ -1,7 +1,7 @@
 
 
   export const imgBg = [
-    {   id: 'image_habbit0',
+    {   id: 'habbitImg0',
         name: 'sun',
         src: "../../assets/png/sun.png",
         coordinate:{
@@ -12,7 +12,7 @@
         height: 100,
     },
     {   
-        id: 'image_habbit1',
+        id: 'habbitImg1',
         name: 'heart',
         src: "../../assets/png/heart.png",
         coordinate:{
@@ -23,7 +23,7 @@
         height: 100,
     },
     {
-        id: 'image_habbit2',
+        id: 'habbitImg2',
         name: 'sun',
         src: "../../assets/png/sun.png",
         coordinate:{

@@ -133,7 +133,8 @@ export const dataUsers = [
     dataChart:barRangeData,
     dataHabbits:dataHabbits,
     dataImgBg: {
-      habbitImgBg: imgBg
+      habbitImg: imgBg,
+      habbitBg: ''
     },
 },
 {
@@ -141,7 +142,8 @@ export const dataUsers = [
     dataChart:barRangeData,
     dataHabbits:dataHabbits,
     dataImgBg: {
-      habbitImgBg: imgBg
+      habbitImg: imgBg,
+      habbitBg: ''
     },
 },
 ]

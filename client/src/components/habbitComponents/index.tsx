@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Days from "./days";
 import Habbits from "./habbits";
-import CanvasHabbit from "./canvasHabbit";
+import Canvas from "./canvas";
 import Images from "./images";
+import Background from "./background";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IHabbitsData, IUserData } from "../../dto";
@@ -20,7 +21,7 @@ const HabbitTrack = () => {
   const email = useSelector((state: IUserData) => state.userData.email);
   useEffect(() => {
     dispatch(getHabbitsData({ email }));
-    dispatch(getImagesBgData({ email, type: "habbitImgBg" }));
+    dispatch(getImagesBgData({ email, type: "habbitImg" }));
   }, []);
 
   const listOfHabbits = useSelector(
@@ -32,9 +33,12 @@ const HabbitTrack = () => {
         <p></p>
         <Days count={listOfHabbits.days} />
         <Habbits listOfHabbits={listOfHabbits.habbits} />
-        <CanvasHabbit />
+        <Canvas type={"habbitImg"} bg={"habbitBg"} />
       </div>
-      <Images />
+      <div>
+        <Images />
+        <Background />
+      </div>
     </div>
   );
 };

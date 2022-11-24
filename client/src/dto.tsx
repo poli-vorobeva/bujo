@@ -75,14 +75,14 @@ export interface IImagesArray {
 }
 export interface IIntStBgImg {
   data: {
-    habbitImgBg: IImagesArray[];
-    clockImg?: number[]; ///тут додати фони для інших колекцій
+    habbitImg?: IImagesArray[];
+    habbitBg?: any; ///тут додати фони для інших колекцій
   };
 }
 export interface IImgBgResponse {
   status: string;
   data: {
     data: IImagesArray[];
-    type: "habbitImgBg";
+    type: "habbitImg" | "habbitBg";
   };
 }

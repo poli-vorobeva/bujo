@@ -8,6 +8,8 @@ canvasImgBgRouter.route('/')
     canvasImgBgRouter.route('/add')
 	.post(canvasImgBgController.add)
     canvasImgBgRouter.route('/change')
-	.post(canvasImgBgController.change)
+	.post(canvasImgBgController.changeImg)
+	canvasImgBgRouter.route('/changebg')
+	.post(canvasImgBgController.changeBg)
 
 export default canvasImgBgRouter

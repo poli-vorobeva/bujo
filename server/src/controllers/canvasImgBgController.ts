@@ -29,10 +29,23 @@ exports.add = (req: Request, res: Response) => {
 		})
 	}
 }
-exports.change = (req: Request, res: Response) => {
+exports.changeImg = (req: Request, res: Response) => {
 	try {
         console.log('addbgImg')
 		const userData = model.changeImgBg(req.body.data, req.body.type)
+		res.status(201).json({status: 'ok', data: userData})
+
+	} catch (e) {
+		res.status(400).json({
+			status: 'fail',
+			message: e
+		})
+	}
+}
+exports.changeBg = (req: Request, res: Response) => {
+	try {
+        console.log('addbgImg')
+		const userData = model.changeBg(req.body.data, req.body.type)
 		res.status(201).json({status: 'ok', data: userData})
 
 	} catch (e) {

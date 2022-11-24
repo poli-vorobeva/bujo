@@ -7,14 +7,18 @@ import {
 } from "../request/requestHabbits";
 import { IHabbitsData } from "../dto";
 
-const initialState = {
+interface IInitialState {
+  data: IHabbitsData;
+}
+
+const initialState: IInitialState = {
   data: {
     days: 21,
     habbits: [
       {
         habbitName: "",
         habbitId: "fvfvf",
-        data: [true],
+        data: [],
       },
     ],
   },

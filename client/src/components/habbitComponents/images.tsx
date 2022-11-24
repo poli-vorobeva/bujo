@@ -5,8 +5,8 @@ import Image from "./image";
 const Images = () => {
   return (
     <>
-      <Image name={"heart"} />
-      <Image name={"sun"} />
+      <Image name={"img"} src={"../../assets/png/heart.png"} />
+      <Image name={"img"} src={"../../assets/png/sun.png"} />
     </>
   );
 };
