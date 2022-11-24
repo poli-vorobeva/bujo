@@ -9,6 +9,7 @@ import testAuthRouter from './routers/testAuthRouter'
 import testRegRouter from './routers/testRegRouter'
 import canvasChartRouter from './routers/canvasChartRouter'
 import habbitsRouter from './routers/habbitsRouter'
+import canvasImgBgRouter from './routers/canvasImgBgRouter';
 //const mongoose = require('mongoose')
 
 const mongoose = require('mongoose')
@@ -29,19 +30,21 @@ app.use('/api/auth',cors(), testAuthRouter)
 app.use('/api/reg',cors(), testRegRouter);
 app.use('/api/canvaschart',cors(), canvasChartRouter);
 app.use('/api/habbits',cors(), habbitsRouter);
+app.use('/api/canvasimgbg',cors(), canvasImgBgRouter);
+
 // app.use('/api/categories',cors(), categoriesRouter);
 // app.use('/api/translates',translatesRouter);
 // app.use('/api/images',cors(),imagesRouter);
 // app.use('/api/users',userRouter);
 
 
-mongoose.connect('mongodb+srv://poli8512:Prima111!!@cluster0.zlz6u.mongodb.net/bujo',
-	{
-		useNewUrlParser:true,
-		//useCreateIndex:true,
-		//useFindAndModify:false,
-		useUnifiedTopology: true
-	})
-	.then(()=>console.log('Connected')).catch((e:Error)=>console.log(e))
+// mongoose.connect('mongodb+srv://poli8512:Prima111!!@cluster0.zlz6u.mongodb.net/bujo',
+// 	{
+// 		useNewUrlParser:true,
+// 		//useCreateIndex:true,
+// 		//useFindAndModify:false,
+// 		useUnifiedTopology: true
+// 	})
+// 	.then(()=>console.log('Connected')).catch((e:Error)=>console.log(e))
 // //app.use('/')
 app.listen(5000,()=>console.log("LIST"));

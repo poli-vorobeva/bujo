@@ -6,8 +6,8 @@ export type tTasksList = tTask[];
 const TasksList = ({ tasks }: { tasks: tTasksList }) => {
   return (
     <ul>
-      {tasks.map((task) => {
-        return <li>{task.task}</li>;
+      {tasks.map((task, ind) => {
+        return <li key={ind}>{task.task}</li>;
       })}
     </ul>
   );

@@ -7,6 +7,7 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IHabbitsData, IUserData } from "../../dto";
 import { getHabbitsData } from "../../reducer/habbitsData";
+import { getImagesBgData } from "../../reducer/canvasImgBgData";
 
 interface IhabbitsState {
   habbitsData: {
@@ -19,6 +20,7 @@ const HabbitTrack = () => {
   const email = useSelector((state: IUserData) => state.userData.email);
   useEffect(() => {
     dispatch(getHabbitsData({ email }));
+    dispatch(getImagesBgData({ email, type: "habbitImgBg" }));
   }, []);
 
   const listOfHabbits = useSelector(

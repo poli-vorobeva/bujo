@@ -27,9 +27,10 @@ const SubDivideTasks = ({ tasks, onSubDivided }: tSubDivided) => {
           gap: "5px",
         }}
       >
-        {tasks.map((_task) => {
+        {tasks.map((_task, ind) => {
           return (
             <Task
+              key={ind}
               task={_task.task}
               category={_task.category}
               changeHandler={(task, param) => {

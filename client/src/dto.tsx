@@ -58,3 +58,31 @@ export interface IResponseHabbits {
   status: string;
   data: IHabbitsData;
 }
+interface ILocation {
+  x: number;
+  y: number;
+}
+
+export interface IImagesArray {
+  id: string;
+  name: string;
+  src: string;
+  coordinate: ILocation;
+  width: number;
+  height: number;
+  isMove?: boolean;
+  img?: Promise<HTMLImageElement>;
+}
+export interface IIntStBgImg {
+  data: {
+    habbitImgBg: IImagesArray[];
+    clockImg?: number[]; ///тут додати фони для інших колекцій
+  };
+}
+export interface IImgBgResponse {
+  status: string;
+  data: {
+    data: IImagesArray[];
+    type: "habbitImgBg";
+  };
+}

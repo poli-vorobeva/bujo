@@ -1,30 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { isReadable } from "stream";
-
-interface ILocation {
-  x: number;
-  y: number;
-}
-
-interface IImagesArray {
-  id: string;
-  name: string;
-  src: string;
-  coordinate: {
-    x: number;
-    y: number;
-  };
-  width: number;
-  height: number;
-  isMove: boolean;
-  img: Promise<HTMLImageElement>;
+import { AppDispatch, IImagesArray, IIntStBgImg, IUserData } from "../../dto";
+import {
+  addImagesBgData,
+  changeImagesBgData,
+} from "../../reducer/canvasImgBgData";
+interface IBgImgStore {
+  imgBgData: IIntStBgImg;
 }
 
 const CanvasHabbit = () => {
   const canvasRef = useRef(null);
   const [images, setImages] = useState<IImagesArray[]>([]);
   const [ctx, setCtx] = useState(null);
+  const [imageId, nextImageId] = useState(0);
+  const imgInState = useSelector(
+    (state: IBgImgStore) => state.imgBgData.data.habbitImgBg
+  );
 
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     const canvasObj = canvasRef.current;
     const context = canvasObj.getContext("2d");
@@ -33,9 +28,18 @@ const CanvasHabbit = () => {
   }, []);
 
   useEffect(() => {
-    Promise.all(images.map((it) => it.img)).then((img) => {
+    setImages(imgInState);
+    nextImageId(imgInState.length);
+    console.log(55555);
+  }, [imgInState]);
+
+  useEffect(() => {
+    if (!ctx) {
+      return;
+    }
+    const src = images.map((it) => loadImage(it.src));
+    Promise.all(src).then((img) => {
       ctx.clearRect(0, 0, 600, 500);
-      console.log(images);
       images.forEach((item, index) => {
         ctx.drawImage(
           img[index],
@@ -53,28 +57,42 @@ const CanvasHabbit = () => {
     const y = e.pageY;
     e.preventDefault();
     const name = e.dataTransfer.getData("name");
-    const id = e.dataTransfer.getData("id");
+    const id = "image_habbit" + imageId;
+    nextImageId((id) => id + 1);
     const widthImg = e.dataTransfer.getData("width");
     const heightImg = e.dataTransfer.getData("height");
-    setImages((st) => [
-      ...st,
-      {
-        id,
-        name,
-        src: "../../assets/png/" + name + ".png",
-        coordinate: { x, y },
-        width: +widthImg,
-        height: +heightImg,
-        isMove: false,
-        img: loadImage("../../assets/png/" + name + ".png"),
-      },
-    ]);
+    // setImages((st) => [
+    //   ...st,
+    //   {
+    //     id,
+    //     name,
+    //     src: "../../assets/png/" + name + ".png",
+    //     coordinate: { x, y },
+    //     width: +widthImg,
+    //     height: +heightImg,
+    //   },
+    // ]);
+
+    dispatch(
+      addImagesBgData({
+        data: {
+          id,
+          name,
+          src: "../../assets/png/" + name + ".png",
+          coordinate: { x, y },
+          width: +widthImg,
+          height: +heightImg,
+        },
+        type: "habbitImgBg",
+      })
+    );
     // loadImage(id).then((img) => {
     //   ctx.drawImage(img, x-120-50, y -50, 100, 100);
     // });
   };
 
   const handleMouseDown = (e: React.DragEvent<HTMLCanvasElement>) => {
+    console.log(images);
     for (let i = images.length - 1; i >= 0; i--) {
       if (
         isShape(
@@ -90,6 +108,7 @@ const CanvasHabbit = () => {
             item.id === images[i].id ? { ...item, isMove: true } : item
           )
         );
+        return;
       }
     }
   };
@@ -116,11 +135,8 @@ const CanvasHabbit = () => {
   const handleMouseUp = (e: React.DragEvent<HTMLCanvasElement>) => {
     images.forEach((it) => {
       if (it.isMove) {
-        setImages(
-          images.map((item) =>
-            item.id === it.id ? { ...item, isMove: false } : item
-          )
-        );
+        it.isMove = false;
+        dispatch(changeImagesBgData({ data: it, type: "habbitImgBg" }));
       }
     });
   };
@@ -142,28 +158,27 @@ export default CanvasHabbit;
 
 // const coordinates = [{x:50,y:100},{x:100,y:200}];
 //         coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
-function draw(ctx: CanvasRenderingContext2D, location: ILocation) {
-  const heartSVG =
-    "M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z";
-  const SVG_PATH = new Path2D(heartSVG);
+// function draw(ctx: CanvasRenderingContext2D, location: ILocation) {
+//   const heartSVG =
+//     "M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z";
+//   const SVG_PATH = new Path2D(heartSVG);
 
-  // Scaling Constants for Canvas
-  const SCALE = 0.1;
-  const OFFSET = 80;
-  ctx.fillStyle = "red";
-  ctx.shadowColor = "blue";
-  ctx.shadowBlur = 15;
-  ctx.save();
-  ctx.scale(SCALE, SCALE);
-  ctx.translate(location.x / SCALE - OFFSET, location.y / SCALE - OFFSET);
-  ctx.rotate((225 * Math.PI) / 180);
-  ctx.fill(SVG_PATH);
-  // .restore(): Canvas 2D API restores the most recently saved canvas state
-  ctx.restore();
-}
+//   // Scaling Constants for Canvas
+//   const SCALE = 0.1;
+//   const OFFSET = 80;
+//   ctx.fillStyle = "red";
+//   ctx.shadowColor = "blue";
+//   ctx.shadowBlur = 15;
+//   ctx.save();
+//   ctx.scale(SCALE, SCALE);
+//   ctx.translate(location.x / SCALE - OFFSET, location.y / SCALE - OFFSET);
+//   ctx.rotate((225 * Math.PI) / 180);
+//   ctx.fill(SVG_PATH);
+//   // .restore(): Canvas 2D API restores the most recently saved canvas state
+//   ctx.restore();
+// }
 
 const loadImage = (src: string): Promise<HTMLImageElement> => {
-  console.log(src);
   return new Promise((resolve) => {
     const image = new Image();
     image.onload = () => {
@@ -180,7 +195,6 @@ const isShape = (
   width: number,
   height: number
 ) => {
-  console.log(e.pageY, y - height / 2);
   return (
     e.pageX > x - width / 2 &&
     e.pageX < x + width / 2 &&

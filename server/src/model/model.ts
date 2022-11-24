@@ -1,4 +1,5 @@
 
+import { IImagesArray } from '../dto';
 import auth from '../fakeData/auth';
 import {dataUsers, typeDataForChart} from '../fakeData/canvasChart';
 import { IDataHabbits } from '../fakeData/habbits';
@@ -8,6 +9,7 @@ export default class Model {
     data: any=[];
     dataUser:typeDataForChart= [];
     habbitsData: IDataHabbits;
+    imgBg: any=[]
     constructor(){
         this.users = auth;
         this.data = dataUsers;
@@ -42,7 +44,25 @@ export default class Model {
         }
         return this.habbitsData
     }
+    getImgBg(email:string,type:string){
+        const user= this.data.find(it=>it.email===email);
+        if(user){
+            this.imgBg = user.dataImgBg;
+            return {data: this.imgBg[type], type: type}
+        }
+        return [];
+    }
 
+    addImgBg(img:IImagesArray,type:string){ 
+       
+        this.imgBg[type].push(img);
+        return {data: this.imgBg[type], type: type};
+    }
+
+    changeImgBg(img:IImagesArray,type:string){
+        this.imgBg[type].find(it=>it.id ===img.id).coordinate = img.coordinate
+        return {data: this.imgBg[type], type: type};
+    }
 
     checkUsers(email: string, password: string){
         const user = this.users.find(it=>it.email===email&&it.password===password);

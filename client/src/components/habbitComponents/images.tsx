@@ -5,8 +5,8 @@ import Image from "./image";
 const Images = () => {
   return (
     <>
-      <Image id={"heart"} />
-      <Image id={"sun"} />
+      <Image name={"heart"} />
+      <Image name={"sun"} />
     </>
   );
 };

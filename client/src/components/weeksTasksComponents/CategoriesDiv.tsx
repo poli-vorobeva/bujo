@@ -9,9 +9,10 @@ const CategoriesDiv = (props: { handler: (category: string) => void }) => {
 
   return (
     <div>
-      {categories.map((cat) => {
+      {categories.map((cat, ind) => {
         return (
           <button
+            key={ind}
             onClick={() => {
               props.handler(cat);
               // this.onAddTask({name:(e.target as HTMLInputElement).value, category: cat})
