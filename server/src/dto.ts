@@ -12,6 +12,11 @@ export interface IServerResponseMessage {
 	type: string;
 	content: string;
 }
+export interface ISettingHabbit {
+	opacity: number;
+	  color: string;
+	  bg: number;
+  }
 
 interface ILocation {
 	x: number;

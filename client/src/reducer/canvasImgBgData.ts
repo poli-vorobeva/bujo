@@ -10,7 +10,6 @@ import { IImagesArray, IIntStBgImg } from "../dto";
 const initialState: IIntStBgImg = {
   data: {
     habbitImg: [],
-    habbitBg: [],
   },
 };
 

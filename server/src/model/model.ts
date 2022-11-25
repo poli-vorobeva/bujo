@@ -40,7 +40,13 @@ export default class Model {
                     habbitId: ind + 'vcdcd',
                     data: new Array(21).fill(null).map(it=>false),
                 }
-            })
+            }),
+            setting:{
+                opacity: 1,
+                color: 'black',
+                bg: 1,
+              }
+
         }
         return this.habbitsData
     }
@@ -63,8 +69,8 @@ export default class Model {
         this.imgBg[type].find(it=>it.id ===img.id).coordinate = img.coordinate;
         return {data: this.imgBg[type], type: type};
     }
-    changeBg(img:IImagesArray,type:string){
-        this.imgBg[type] = img;
+    changeBg(img:IImagesArray,type:string) {
+        this.imgBg[type][0] = img;
         return {data: this.imgBg[type], type: type};
     }
 

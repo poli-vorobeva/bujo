@@ -134,7 +134,6 @@ export const dataUsers = [
     dataHabbits:dataHabbits,
     dataImgBg: {
       habbitImg: imgBg,
-      habbitBg: ''
     },
 },
 {
@@ -143,7 +142,6 @@ export const dataUsers = [
     dataHabbits:dataHabbits,
     dataImgBg: {
       habbitImg: imgBg,
-      habbitBg: ''
     },
 },
 ]

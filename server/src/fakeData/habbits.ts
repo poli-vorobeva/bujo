@@ -1,3 +1,5 @@
+import { ISettingHabbit } from "../dto";
+
 interface HabbitData {
     habbitName: string;
     habbitId: string;
@@ -27,10 +29,16 @@ const listOfHabbits = [
 ]
 export const dataHabbits = {
     days: 21,
-    habbits: listOfHabbits
+    habbits: listOfHabbits,
+    settings:{
+        opacity: 1,
+        color: 'black',
+        bg: 1,
+      }
 }
 
 export interface IDataHabbits{
     days: number
-    habbits: HabbitData[]
+    habbits: HabbitData[];
+    setting: ISettingHabbit;
 }

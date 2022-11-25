@@ -25,10 +25,10 @@ const BgImage = ({ name, src }: IImage) => {
           name,
           src,
           coordinate: { x: 0, y: 0 },
-          width: +600,
-          height: +700,
+          width: +800,
+          height: +600,
         },
-        type: "habbitBg",
+        type: "habbitImg",
       })
     );
   };

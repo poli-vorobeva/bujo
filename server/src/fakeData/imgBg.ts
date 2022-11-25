@@ -2,14 +2,11 @@
 
   export const imgBg = [
     {   id: 'habbitImg0',
-        name: 'sun',
-        src: "../../assets/png/sun.png",
-        coordinate:{
-            x:200,
-            y:300,
-        },
-        width: 100,
-        height: 100,
+        naem: 'bg',
+        src:"../../assets/bg/bg1.jpg",
+        coordinate: { x: 0, y: 0 },
+        width: +800,
+        height: +500,
     },
     {   
         id: 'habbitImg1',

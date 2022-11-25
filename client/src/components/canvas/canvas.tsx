@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isReadable } from "stream";
-import { string } from "yup";
-import { AppDispatch, IImagesArray, IIntStBgImg, IUserData } from "../../dto";
+import { AppDispatch, IImagesArray, IIntStBgImg } from "../../dto";
+import { isShape, loadImage } from "../../utils/canvas";
 import {
   addImagesBgData,
   changeImagesBgData,
@@ -11,20 +10,16 @@ interface IBgImgStore {
   imgBgData: IIntStBgImg;
 }
 interface ICanvas {
-  type: "habbitImg" | "habbitBg";
-  bg: "habbitBg";
+  type: "habbitImg";
 }
 
-const Canvas = ({ type, bg }: ICanvas) => {
+const Canvas = ({ type }: ICanvas) => {
   const canvasRef = useRef(null);
   const [images, setImages] = useState<IImagesArray[]>([]);
   const [ctx, setCtx] = useState(null);
   const [imageId, nextImageId] = useState(0);
   const imgInState = useSelector(
     (state: IBgImgStore) => state.imgBgData.data[type]
-  );
-  const bgInState = useSelector(
-    (state: IBgImgStore) => state.imgBgData.data[bg]
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -40,10 +35,6 @@ const Canvas = ({ type, bg }: ICanvas) => {
 
     nextImageId(imgInState.length);
   }, [imgInState]);
-
-  useEffect(() => {
-    console.log(bgInState);
-  }, [bgInState]);
 
   useEffect(() => {
     if (!ctx) {
@@ -65,27 +56,14 @@ const Canvas = ({ type, bg }: ICanvas) => {
   }, [images]);
 
   const handleDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
     const x = e.pageX;
     const y = e.pageY;
-    e.preventDefault();
     const name = e.dataTransfer.getData("name");
     const id = type + imageId;
     const src = e.dataTransfer.getData("src");
-    nextImageId((id) => id + 1);
     const widthImg = e.dataTransfer.getData("width");
     const heightImg = e.dataTransfer.getData("height");
-    // setImages((st) => [
-    //   ...st,
-    //   {
-    //     id,
-    //     name,
-    //     src: "../../assets/png/" + name + ".png",
-    //     coordinate: { x, y },
-    //     width: +widthImg,
-    //     height: +heightImg,
-    //   },
-    // ]);
-
     dispatch(
       addImagesBgData({
         data: {
@@ -99,9 +77,6 @@ const Canvas = ({ type, bg }: ICanvas) => {
         type,
       })
     );
-    // loadImage(id).then((img) => {
-    //   ctx.drawImage(img, x-120-50, y -50, 100, 100);
-    // });
   };
 
   const handleMouseDown = (e: React.DragEvent<HTMLCanvasElement>) => {
@@ -156,6 +131,7 @@ const Canvas = ({ type, bg }: ICanvas) => {
       }
     });
   };
+
   return (
     <canvas
       onMouseDown={handleMouseDown}
@@ -171,50 +147,3 @@ const Canvas = ({ type, bg }: ICanvas) => {
 };
 
 export default Canvas;
-
-// const coordinates = [{x:50,y:100},{x:100,y:200}];
-//         coordinates.forEach((coordinate)=>{draw(ctx, coordinate)});
-// function draw(ctx: CanvasRenderingContext2D, location: ILocation) {
-//   const heartSVG =
-//     "M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z";
-//   const SVG_PATH = new Path2D(heartSVG);
-
-//   // Scaling Constants for Canvas
-//   const SCALE = 0.1;
-//   const OFFSET = 80;
-//   ctx.fillStyle = "red";
-//   ctx.shadowColor = "blue";
-//   ctx.shadowBlur = 15;
-//   ctx.save();
-//   ctx.scale(SCALE, SCALE);
-//   ctx.translate(location.x / SCALE - OFFSET, location.y / SCALE - OFFSET);
-//   ctx.rotate((225 * Math.PI) / 180);
-//   ctx.fill(SVG_PATH);
-//   // .restore(): Canvas 2D API restores the most recently saved canvas state
-//   ctx.restore();
-// }
-
-const loadImage = (src: string): Promise<HTMLImageElement> => {
-  return new Promise((resolve) => {
-    const image = new Image();
-    image.onload = () => {
-      resolve(image);
-    };
-    image.src = src;
-  });
-};
-
-const isShape = (
-  e: React.DragEvent<HTMLCanvasElement>,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-) => {
-  return (
-    e.pageX > x - width / 2 &&
-    e.pageX < x + width / 2 &&
-    e.pageY > y - height / 2 &&
-    e.pageY < y + height / 2
-  );
-};
