@@ -133,7 +133,13 @@ export const dataUsers = [
     dataChart:barRangeData,
     dataHabbits:dataHabbits,
     dataImgBg: {
-      habbitImg: imgBg,
+      habbitImg:{
+        pictures: imgBg,
+        setting: {
+          opacity:1,
+          color: 'black',
+        }
+      }
     },
 },
 {
@@ -141,7 +147,13 @@ export const dataUsers = [
     dataChart:barRangeData,
     dataHabbits:dataHabbits,
     dataImgBg: {
-      habbitImg: imgBg,
+      habbitImg: {
+        pictures: imgBg,
+        setting: {
+          opacity:1,
+          color: 'black',
+        }
+      },
     },
-},
+}
 ]

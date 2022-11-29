@@ -6,6 +6,9 @@ import { changeBgData } from "../../reducer/canvasImgBgData";
 interface IImage {
   name: string;
   src: string;
+  type: "habbitImg";
+  width: number;
+  height: number;
 }
 const ImageComponent = styled.img`
   display: block;
@@ -14,21 +17,21 @@ const ImageComponent = styled.img`
   position: relative;
   z-index: 5;
 `;
-const BgImage = ({ name, src }: IImage) => {
+const BgImage = ({ name, src, type, width, height }: IImage) => {
   const dispatch = useDispatch<AppDispatch>();
   const handleClick = () => {
     console.log("click");
     dispatch(
       changeBgData({
         data: {
-          id: name,
+          id: "0",
           name,
           src,
           coordinate: { x: 0, y: 0 },
-          width: +600,
-          height: +500,
+          width,
+          height,
         },
-        type: "habbitImg",
+        type,
       })
     );
   };

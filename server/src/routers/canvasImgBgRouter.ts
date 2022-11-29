@@ -11,5 +11,9 @@ canvasImgBgRouter.route('/')
 	.post(canvasImgBgController.changeImg)
 	canvasImgBgRouter.route('/changebg')
 	.post(canvasImgBgController.changeBg)
+	canvasImgBgRouter.route('/delete')
+	.post(canvasImgBgController.deleteImg)
+	canvasImgBgRouter.route('/setting')
+	.post(canvasImgBgController.changeSetting)
 
 export default canvasImgBgRouter

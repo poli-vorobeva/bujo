@@ -50,16 +50,14 @@ export interface IHabbit {
   data: boolean[];
 }
 
-export interface ISettingHabbit {
+export interface ISettingImg {
   opacity: number;
   color: string;
-  bg: number;
 }
 
 export interface IHabbitsData {
   days: number;
   habbits: IHabbit[];
-  setting: ISettingHabbit;
 }
 export interface IResponseHabbits {
   status: string;
@@ -82,14 +80,20 @@ export interface IImagesArray {
 }
 export interface IIntStBgImg {
   data: {
-    habbitImg?: IImagesArray[];
+    habbitImg?: {
+      pictures: IImagesArray[];
+      setting: ISettingImg;
+    };
     ///тут додати фони для інших колекцій
   };
 }
 export interface IImgBgResponse {
   status: string;
   data: {
-    data: IImagesArray[];
+    data: {
+      pictures: IImagesArray[];
+      setting: ISettingImg;
+    };
     type: "habbitImg";
   };
 }

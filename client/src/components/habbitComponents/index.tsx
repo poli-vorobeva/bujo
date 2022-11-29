@@ -32,6 +32,7 @@ const HabbitsContainer = styled.div<{ styledComp: IHabbitContainer }>`
 
 const HabbitTrack = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [isDelete, setDelete] = useState(false);
   const email = useSelector((state: IUserData) => state.userData.email);
   const CanvasWidth = 500;
   const CanvasHeight = 500;
@@ -44,6 +45,9 @@ const HabbitTrack = () => {
   const listOfHabbits = useSelector(
     (state: IhabbitsState) => state.habbitsData.data
   );
+  const deleteComponent = (e: React.MouseEvent<HTMLInputElement>) => {
+    setDelete(e.currentTarget.checked);
+  };
   console.log(listOfHabbits);
   return (
     <>
@@ -58,12 +62,22 @@ const HabbitTrack = () => {
             type={"habbitImg"}
             width={CanvasWidth}
             height={CanvasHeight}
+            isDelete={isDelete}
           />
         </HabbitsContainer>
         <div>
           <Images />
-          <Background />
-          <Tools />
+          <Background
+            type={"habbitImg"}
+            width={CanvasWidth}
+            height={CanvasHeight}
+          />
+          <Tools
+            type={"habbitImg"}
+            width={CanvasWidth}
+            height={CanvasHeight}
+            handlerClick={deleteComponent}
+          />
         </div>
       </MainContainer>
     </>

@@ -6,6 +6,7 @@ import { isShape, loadImage } from "../../utils/canvas";
 import {
   addImagesBgData,
   changeImagesBgData,
+  deleteImagesBgData,
 } from "../../reducer/canvasImgBgData";
 
 interface IBgImgStore {
@@ -15,6 +16,7 @@ interface ICanvas {
   type: "habbitImg";
   width: number;
   height: number;
+  isDelete: boolean;
 }
 
 const CanvasComponent = styled.canvas`
@@ -24,13 +26,13 @@ const CanvasComponent = styled.canvas`
   z-index: 1;
 `;
 
-const Canvas = ({ type, width, height }: ICanvas) => {
+const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
   const canvasRef = useRef(null);
   const [images, setImages] = useState<IImagesArray[]>([]);
   const [ctx, setCtx] = useState(null);
   const [imageId, nextImageId] = useState(0);
   const imgInState = useSelector(
-    (state: IBgImgStore) => state.imgBgData.data[type]
+    (state: IBgImgStore) => state.imgBgData.data[type].pictures
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +45,16 @@ const Canvas = ({ type, width, height }: ICanvas) => {
 
   useEffect(() => {
     setImages(imgInState);
-
+    console.log(imgInState, 1111111);
+    if (!imgInState) {
+      return;
+    }
+    const lastId = imgInState[imgInState.length - 1];
+    //id буде на сервері формуватись
+    if (lastId) {
+      nextImageId(+lastId.id + 1);
+      return;
+    }
     nextImageId(imgInState.length);
   }, [imgInState]);
 
@@ -54,7 +65,6 @@ const Canvas = ({ type, width, height }: ICanvas) => {
     const src = images.map((it) => loadImage(it.src));
     Promise.all(src).then((img) => {
       ctx.clearRect(0, 0, width, height);
-      console.log(images);
       images.forEach((item, index) => {
         ctx.drawImage(
           img[index],
@@ -72,7 +82,7 @@ const Canvas = ({ type, width, height }: ICanvas) => {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
     const name = e.dataTransfer.getData("name");
-    const id = type + imageId;
+    const id = String(imageId);
     const src = e.dataTransfer.getData("src");
     const widthImg = e.dataTransfer.getData("width");
     const heightImg = e.dataTransfer.getData("height");
@@ -102,6 +112,10 @@ const Canvas = ({ type, width, height }: ICanvas) => {
           images[i].height
         )
       ) {
+        if (isDelete) {
+          dispatch(deleteImagesBgData({ type, data: images[i] }));
+          return;
+        }
         setImages(
           images.map((item) =>
             item.id === images[i].id ? { ...item, isMove: true } : item

@@ -21,11 +21,6 @@ const initialState: IInitialState = {
         data: [],
       },
     ],
-    setting: {
-      opacity: 1,
-      color: "black",
-      bg: 1,
-    },
   },
 };
 interface IDataHabbits {

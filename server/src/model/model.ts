@@ -41,12 +41,6 @@ export default class Model {
                     data: new Array(21).fill(null).map(it=>false),
                 }
             }),
-            setting:{
-                opacity: 1,
-                color: 'black',
-                bg: 1,
-              }
-
         }
         return this.habbitsData
     }
@@ -61,16 +55,24 @@ export default class Model {
 
     addImgBg(img:IImagesArray,type:string){ 
        
-        this.imgBg[type].push(img);
+        this.imgBg[type].pictures.push(img);
         return {data: this.imgBg[type], type: type};
     }
 
     changeImgBg(img:IImagesArray,type:string){
-        this.imgBg[type].find(it=>it.id ===img.id).coordinate = img.coordinate;
+        this.imgBg[type].pictures.find(it=>it.id ===img.id).coordinate = img.coordinate;
+        return {data: this.imgBg[type], type: type};
+    }
+    deleteImgBg(img:IImagesArray,type:string){
+        this.imgBg[type].pictures = this.imgBg[type].pictures.filter(it=>it.id !== img.id)
         return {data: this.imgBg[type], type: type};
     }
     changeBg(img:IImagesArray,type:string) {
-        this.imgBg[type][0] = img;
+        this.imgBg[type].pictures[0] = img;
+        return {data: this.imgBg[type], type: type};
+    }
+    changeSetting(setting: {opasity: number, color: string}, type:string){
+        this.imgBg[type].setting = setting;
         return {data: this.imgBg[type], type: type};
     }
 

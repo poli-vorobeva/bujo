@@ -4,12 +4,20 @@ import {
   requestAddImagesData,
   requestChangeImagesData,
   requestChangeBg,
+  requestDeleteImagesData,
+  requestBgSetting,
 } from "../request/requestCanvasImgBg";
-import { IImagesArray, IIntStBgImg } from "../dto";
+import { IImagesArray, IIntStBgImg, ISettingImg } from "../dto";
 
 const initialState: IIntStBgImg = {
   data: {
-    habbitImg: [],
+    habbitImg: {
+      pictures: [],
+      setting: {
+        opacity: 1,
+        color: "black",
+      },
+    },
   },
 };
 
@@ -67,6 +75,21 @@ export const changeImagesBgData = createAsyncThunk(
     throw new Error("false data");
   }
 );
+
+export const deleteImagesBgData = createAsyncThunk(
+  "deleteImagesBgData",
+  async ({ data, type }: IAddImgBg, thunkAPI) => {
+    const response = await requestDeleteImagesData(data, type);
+    console.log(response);
+    if (response.status === "ok") {
+      return {
+        data: response.data.data,
+        type: response.data.type,
+      };
+    }
+    throw new Error("false data");
+  }
+);
 export const changeBgData = createAsyncThunk(
   "changeBgData",
   async ({ data, type }: IAddImgBg, thunkAPI) => {
@@ -81,6 +104,26 @@ export const changeBgData = createAsyncThunk(
     throw new Error("false data");
   }
 );
+
+interface IBgSetting {
+  data: ISettingImg;
+  type: string;
+}
+export const changeBgSetting = createAsyncThunk(
+  "changeBgSetting",
+  async ({ data, type }: IBgSetting, thunkAPI) => {
+    const response = await requestBgSetting(data, type);
+    console.log(response);
+    if (response.status === "ok") {
+      return {
+        data: response.data.data,
+        type: response.data.type,
+      };
+    }
+    throw new Error("false data");
+  }
+);
+
 const canvasImBgSlice = createSlice({
   name: "canvasImBgSlice",
   initialState,
@@ -88,6 +131,7 @@ const canvasImBgSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(getImagesBgData.fulfilled, (state, action) => {
+      console.log(action.payload.data);
       const type = action.payload.type;
       state.data[type] = action.payload.data;
     }),
@@ -113,6 +157,20 @@ const canvasImBgSlice = createSlice({
       state.data[type] = action.payload.data;
     }),
       builder.addCase(changeBgData.rejected, (state, action) => {
+        console.log("err");
+      });
+    builder.addCase(deleteImagesBgData.fulfilled, (state, action) => {
+      const type = action.payload.type;
+      state.data[type] = action.payload.data;
+    }),
+      builder.addCase(deleteImagesBgData.rejected, (state, action) => {
+        console.log("err");
+      });
+    builder.addCase(changeBgSetting.fulfilled, (state, action) => {
+      const type = action.payload.type;
+      state.data[type] = action.payload.data;
+    }),
+      builder.addCase(changeBgSetting.rejected, (state, action) => {
         console.log("err");
       });
   },

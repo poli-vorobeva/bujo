@@ -42,10 +42,37 @@ exports.changeImg = (req: Request, res: Response) => {
 		})
 	}
 }
-exports.changeBg = (req: Request, res: Response) => {
+exports.deleteImg = (req: Request, res: Response) => {
 	try {
         console.log('addbgImg')
+		const userData = model.deleteImgBg(req.body.data, req.body.type)
+		res.status(201).json({status: 'ok', data: userData})
+
+	} catch (e) {
+		res.status(400).json({
+			status: 'fail',
+			message: e
+		})
+	}
+}
+
+exports.changeBg = (req: Request, res: Response) => {
+	try {
+        console.log('changebg')
 		const userData = model.changeBg(req.body.data, req.body.type)
+		res.status(201).json({status: 'ok', data: userData})
+
+	} catch (e) {
+		res.status(400).json({
+			status: 'fail',
+			message: e
+		})
+	}
+}
+exports.changeSetting= (req: Request, res: Response) => {
+	try {
+        console.log('changebg')
+		const userData = model.changeSetting(req.body.data, req.body.type)
 		res.status(201).json({status: 'ok', data: userData})
 
 	} catch (e) {
