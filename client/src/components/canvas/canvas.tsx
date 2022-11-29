@@ -1,19 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { AppDispatch, IImagesArray, IIntStBgImg } from "../../dto";
 import { isShape, loadImage } from "../../utils/canvas";
 import {
   addImagesBgData,
   changeImagesBgData,
 } from "../../reducer/canvasImgBgData";
+
 interface IBgImgStore {
   imgBgData: IIntStBgImg;
 }
 interface ICanvas {
   type: "habbitImg";
+  width: number;
+  height: number;
 }
 
-const Canvas = ({ type }: ICanvas) => {
+const CanvasComponent = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+`;
+
+const Canvas = ({ type, width, height }: ICanvas) => {
   const canvasRef = useRef(null);
   const [images, setImages] = useState<IImagesArray[]>([]);
   const [ctx, setCtx] = useState(null);
@@ -26,7 +37,7 @@ const Canvas = ({ type }: ICanvas) => {
   useEffect(() => {
     const canvasObj = canvasRef.current;
     const context = canvasObj.getContext("2d");
-    context.clearRect(0, 0, 600, 500);
+    context.clearRect(0, 0, width, height);
     setCtx(context);
   }, []);
 
@@ -42,12 +53,13 @@ const Canvas = ({ type }: ICanvas) => {
     }
     const src = images.map((it) => loadImage(it.src));
     Promise.all(src).then((img) => {
-      ctx.clearRect(0, 0, 600, 500);
+      ctx.clearRect(0, 0, width, height);
+      console.log(images);
       images.forEach((item, index) => {
         ctx.drawImage(
           img[index],
-          item.coordinate.x - 170,
-          item.coordinate.y - 50,
+          item.coordinate.x,
+          item.coordinate.y,
           item.width,
           item.height
         );
@@ -57,8 +69,8 @@ const Canvas = ({ type }: ICanvas) => {
 
   const handleDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    const x = e.pageX;
-    const y = e.pageY;
+    const x = e.nativeEvent.offsetX;
+    const y = e.nativeEvent.offsetY;
     const name = e.dataTransfer.getData("name");
     const id = type + imageId;
     const src = e.dataTransfer.getData("src");
@@ -70,7 +82,7 @@ const Canvas = ({ type }: ICanvas) => {
           id,
           name,
           src,
-          coordinate: { x, y },
+          coordinate: { x: x - +widthImg / 2, y: y - +heightImg / 2 },
           width: +widthImg,
           height: +heightImg,
         },
@@ -80,7 +92,7 @@ const Canvas = ({ type }: ICanvas) => {
   };
 
   const handleMouseDown = (e: React.DragEvent<HTMLCanvasElement>) => {
-    for (let i = images.length - 1; i >= 0; i--) {
+    for (let i = images.length - 1; i > 0; i--) {
       if (
         isShape(
           e,
@@ -111,7 +123,13 @@ const Canvas = ({ type }: ICanvas) => {
         setImages(
           images.map((item) =>
             item.id === it.id
-              ? { ...item, coordinate: { x: e.pageX, y: e.pageY } }
+              ? {
+                  ...item,
+                  coordinate: {
+                    x: e.nativeEvent.offsetX - item.width / 2,
+                    y: e.nativeEvent.offsetY - item.height / 2,
+                  },
+                }
               : item
           )
         );
@@ -133,12 +151,12 @@ const Canvas = ({ type }: ICanvas) => {
   };
 
   return (
-    <canvas
+    <CanvasComponent
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      width={600}
-      height={500}
+      width={width}
+      height={height}
       ref={canvasRef}
       onDrop={handleDrop}
       onDragOver={handleDragOver}

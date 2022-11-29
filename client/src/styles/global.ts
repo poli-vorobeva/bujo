@@ -18,7 +18,8 @@ export default createGlobalStyle`
     font-size: 10px;
     font-family: 'Gloria Hallelujah', cursive;
   }
-  button{
+ 
+  button,input{
     font-family: 'Kalam', cursive;
   }
 `;

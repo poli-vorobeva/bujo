@@ -6,7 +6,7 @@ import AuthForm from "../components/AuthForm";
 import ChangeForm from "../components/ChangeForm";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { getCanvasData } from "../reducer/canvasChartData";
-import { AppDispatch, IUser } from "../components/main";
+import { IUser } from "../components/main";
 import * as React from "react";
 // @ts-ignore
 import { Redirect, redirect } from "react-router";

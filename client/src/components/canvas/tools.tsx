@@ -1,6 +1,6 @@
 import React from "react";
 
-const Panel = () => {
+const Tools = () => {
   return (
     <>
       <h3>Panel</h3>
@@ -12,4 +12,4 @@ const Panel = () => {
   );
 };
 
-export default Panel;
+export default Tools;

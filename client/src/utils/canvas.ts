@@ -16,9 +16,9 @@ export const isShape = (
   height: number
 ) => {
   return (
-    e.pageX > x - width / 2 &&
-    e.pageX < x + width / 2 &&
-    e.pageY > y - height / 2 &&
-    e.pageY < y + height / 2
+    e.nativeEvent.offsetX > x &&
+    e.nativeEvent.offsetX < x + width &&
+    e.nativeEvent.offsetY > y &&
+    e.nativeEvent.offsetY < y + height
   );
 };

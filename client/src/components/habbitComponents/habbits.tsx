@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
 import { AppDispatch, IHabbit } from "../../dto";
 import {
   changeHabbitsName,
@@ -8,12 +9,25 @@ import {
 } from "../../reducer/habbitsData";
 import Habbit from "./habbit";
 import Input from "./input";
+import Btn from "./btn";
 
 interface IHabbits {
   listOfHabbits: IHabbit[];
+  width: number;
 }
 
-const Habbits = ({ listOfHabbits }: IHabbits) => {
+interface IHabbitContainer {
+  width: number;
+}
+const HabbitContainer = styled.div<{ styledComp: IHabbitContainer }>`
+  display: grid;
+  grid-template-columns: 100px repeat(
+      21,
+      ${({ styledComp }) => styledComp.width}px
+    );
+`;
+
+const Habbits = ({ listOfHabbits, width }: IHabbits) => {
   const dispatch = useDispatch<AppDispatch>();
   const handleClickCheckBox = (
     idHabbit: string,
@@ -28,9 +42,10 @@ const Habbits = ({ listOfHabbits }: IHabbits) => {
   const handleClickAddHabbit = () => {
     dispatch(addNewHabbit());
   };
+  const widthHabbit = (width - 100) / 21;
   const habbits = listOfHabbits.slice().map((it) => {
     return (
-      <div className="habbit_line" key={it.habbitId}>
+      <HabbitContainer key={it.habbitId} styledComp={{ width: widthHabbit }}>
         <Habbit
           text={it.habbitName}
           key={it.habbitId}
@@ -48,13 +63,13 @@ const Habbits = ({ listOfHabbits }: IHabbits) => {
             }
           />
         ))}
-      </div>
+      </HabbitContainer>
     );
   });
   return (
     <>
       {habbits}
-      <button onClick={handleClickAddHabbit}>Add new habbit</button>
+      <Btn handleClick={handleClickAddHabbit} />
     </>
   );
 };

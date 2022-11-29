@@ -25,8 +25,8 @@ const BgImage = ({ name, src }: IImage) => {
           name,
           src,
           coordinate: { x: 0, y: 0 },
-          width: +800,
-          height: +600,
+          width: +600,
+          height: +500,
         },
         type: "habbitImg",
       })
