@@ -37,6 +37,7 @@ const Habbits = ({ listOfHabbits, width }: IHabbits) => {
     dispatch(changeHabbitsInput({ idHabbit, idEl, value }));
   };
   const handleInputHabbitName = (idHabbit: string, value: string) => {
+    console.log(value);
     dispatch(changeHabbitsName({ idHabbit, value }));
   };
   const handleClickAddHabbit = () => {
@@ -55,7 +56,7 @@ const Habbits = ({ listOfHabbits, width }: IHabbits) => {
         />
         {it.data.map((el, ind) => (
           <Input
-            id={String(ind + 1)}
+            id={`${it.habbitId}-${ind}`}
             check={el}
             key={ind}
             handleClick={() =>
