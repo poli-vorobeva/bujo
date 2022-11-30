@@ -31,7 +31,6 @@ export const getImagesBgData = createAsyncThunk(
   "getImagesData",
   async ({ email, type }: IUserEmail, thunkAPI) => {
     const response = await requestGetImagesData(email, type);
-    console.log("getImgDts", response);
     if (response.status === "ok") {
       return {
         data: response.data.data,
@@ -65,7 +64,6 @@ export const changeImagesBgData = createAsyncThunk(
   "changeImagesBgData",
   async ({ data, type }: IAddImgBg, thunkAPI) => {
     const response = await requestChangeImagesData(data, type);
-    console.log(response);
     if (response.status === "ok") {
       return {
         data: response.data.data,
@@ -80,7 +78,6 @@ export const deleteImagesBgData = createAsyncThunk(
   "deleteImagesBgData",
   async ({ data, type }: IAddImgBg, thunkAPI) => {
     const response = await requestDeleteImagesData(data, type);
-    console.log(response);
     if (response.status === "ok") {
       return {
         data: response.data.data,
@@ -94,7 +91,6 @@ export const changeBgData = createAsyncThunk(
   "changeBgData",
   async ({ data, type }: IAddImgBg, thunkAPI) => {
     const response = await requestChangeBg(data, type);
-    console.log(response);
     if (response.status === "ok") {
       return {
         data: response.data.data,
@@ -113,7 +109,6 @@ export const changeBgSetting = createAsyncThunk(
   "changeBgSetting",
   async ({ data, type }: IBgSetting, thunkAPI) => {
     const response = await requestBgSetting(data, type);
-    console.log(response);
     if (response.status === "ok") {
       return {
         data: response.data.data,
@@ -131,7 +126,6 @@ const canvasImBgSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(getImagesBgData.fulfilled, (state, action) => {
-      console.log(action.payload.data);
       const type = action.payload.type;
       state.data[type] = action.payload.data;
     }),

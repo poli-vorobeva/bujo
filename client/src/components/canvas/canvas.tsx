@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { AppDispatch, IImagesArray, IIntStBgImg } from "../../dto";
+import { AppDispatch, IImagesArray, IIntStBgImg, ISettingImg } from "../../dto";
 import { isShape, loadImage } from "../../utils/canvas";
 import {
   addImagesBgData,
@@ -29,10 +29,14 @@ const CanvasComponent = styled.canvas`
 const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
   const canvasRef = useRef(null);
   const [images, setImages] = useState<IImagesArray[]>([]);
+  const [setting, setSetting] = useState<ISettingImg>({
+    opacity: 1,
+    color: "black",
+  });
   const [ctx, setCtx] = useState(null);
   const [imageId, nextImageId] = useState(0);
   const imgInState = useSelector(
-    (state: IBgImgStore) => state.imgBgData.data[type].pictures
+    (state: IBgImgStore) => state.imgBgData.data[type]
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -44,24 +48,25 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
   }, []);
 
   useEffect(() => {
-    setImages(imgInState);
-    console.log(imgInState, 1111111);
-    if (!imgInState) {
+    setImages(imgInState.pictures);
+    setSetting(imgInState.setting);
+    if (!imgInState.pictures) {
       return;
     }
-    const lastId = imgInState[imgInState.length - 1];
+    const lastId = imgInState.pictures[imgInState.pictures.length - 1];
     //id буде на сервері формуватись
     if (lastId) {
       nextImageId(+lastId.id + 1);
       return;
     }
-    nextImageId(imgInState.length);
+    nextImageId(imgInState.pictures.length);
   }, [imgInState]);
 
   useEffect(() => {
     if (!ctx) {
       return;
     }
+    ctx.globalAlpha = setting.opacity;
     const src = images.map((it) => loadImage(it.src));
     Promise.all(src).then((img) => {
       ctx.clearRect(0, 0, width, height);
