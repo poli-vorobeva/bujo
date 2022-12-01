@@ -8,9 +8,10 @@ export default class Model {
     users:any=[];
     data: any=[];
     dataUser:typeDataForChart= [];
-    habbitsData: IDataHabbits;
+    habbitsData: IDataHabbits 
     imgBg: any=[]
     constructor(){
+        console.log('createModel')
         this.users = auth;
         this.data = dataUsers;
         this.dataUser =[];
@@ -28,8 +29,12 @@ export default class Model {
 
     getHabbits(email:string){
         const user= this.data.find(it=>it.email===email);
+        if(this.habbitsData){
+            return this.habbitsData
+        }
         if(user){
             this.habbitsData = user.dataHabbits
+        
             return this.habbitsData
         }
         this.habbitsData = {
@@ -42,6 +47,7 @@ export default class Model {
                 }
             }),
         }
+        
         return this.habbitsData
     }
     getImgBg(email:string,type:string){
@@ -94,6 +100,9 @@ export default class Model {
         //add user
         return true
     }
+    changeHabbits(data:IDataHabbits){
+        this.habbitsData = data;
+    }
 
     changeData( email:string,day: string,timeFrom: number, timeTo: number){
         //todo request to database by email
@@ -107,26 +116,26 @@ export default class Model {
        return this.dataUser
 
         }
-    changeName(idHabbit: string,value: string){
-        const el = this.habbitsData.habbits.find(it=>it.habbitId ===idHabbit);
-        if(el){
-            el.habbitName=value;
-        }
-        return this.habbitsData
-    }
-    changeInput(idHabbit: string,idEl: string,value: boolean){
-        const habbit = this.habbitsData.habbits.find(it=>it.habbitId ===idHabbit);
-        if(habbit){
-            habbit.data[idEl] = value;
-        }
-        return this.habbitsData;
-    }
-    addNewHabbit(){
-        this.habbitsData.habbits.push({
-            habbitName: '',
-            habbitId: String(Math.floor(Math.random()*100)),
-            data:new Array(21).fill(null).map(it=>false)
-        },);
-        return  this.habbitsData;
-    }
+    // changeName(idHabbit: string,value: string){
+    //     const el = this.habbitsData.habbits.find(it=>it.habbitId ===idHabbit);
+    //     if(el){
+    //         el.habbitName=value;
+    //     }
+    //     return this.habbitsData
+    // }
+    // changeInput(idHabbit: string,idEl: string,value: boolean){
+    //     const habbit = this.habbitsData.habbits.find(it=>it.habbitId ===idHabbit);
+    //     if(habbit){
+    //         habbit.data[idEl] = value;
+    //     }
+    //     return this.habbitsData;
+    // }
+    // addNewHabbit(){
+    //     this.habbitsData.habbits.push({
+    //         habbitName: '',
+    //         habbitId: String(Math.floor(Math.random()*100)),
+    //         data:new Array(21).fill(null).map(it=>false)
+    //     },);
+    //     return  this.habbitsData;
+    // }
 }

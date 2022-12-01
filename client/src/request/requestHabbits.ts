@@ -1,4 +1,4 @@
-import { IResponseHabbits } from "../dto";
+import { IResponseHabbits, IHabbitsData } from "../dto";
 
 export async function requestHabbits(email: string): Promise<IResponseHabbits> {
   try {
@@ -26,12 +26,12 @@ interface IDataChange {
 }
 
 export async function requestHabbitsChange(
-  data: IDataChange
+  data: IHabbitsData
 ): Promise<IResponseHabbits> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'
-      "http://localhost:5000/api/" + "habbits/changeName",
+      "http://localhost:5000/api/" + "habbits/changeHabbits",
       {
         method: "POST",
         headers: {
@@ -46,48 +46,48 @@ export async function requestHabbitsChange(
     throw new Error(e);
   }
 }
-interface IInputChange {
-  idHabbit: string;
-  idEl: string;
-  value: boolean;
-}
+// interface IInputChange {
+//   idHabbit: string;
+//   idEl: string;
+//   value: boolean;
+// }
 
-export async function requestHabbitsChangeInput(
-  data: IInputChange
-): Promise<IResponseHabbits> {
-  try {
-    const response = await fetch(
-      //'http://localhost:5000/'
-      "http://localhost:5000/api/" + "habbits/changeinput",
-      {
-        method: "POST",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-    return response.json();
-  } catch (e) {
-    throw new Error(e);
-  }
-}
-export async function requestHabbitAddNew(): Promise<IResponseHabbits> {
-  try {
-    const response = await fetch(
-      //'http://localhost:5000/'
-      "http://localhost:5000/api/" + "habbits/addnewhabbit",
-      {
-        method: "POST",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.json();
-  } catch (e) {
-    throw new Error(e);
-  }
-}
+// export async function requestHabbitsChangeInput(
+//   data: IInputChange
+// ): Promise<IResponseHabbits> {
+//   try {
+//     const response = await fetch(
+//       //'http://localhost:5000/'
+//       "http://localhost:5000/api/" + "habbits/changeinput",
+//       {
+//         method: "POST",
+//         headers: {
+//           "Access-Control-Allow-Origin": "*",
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(data),
+//       }
+//     );
+//     return response.json();
+//   } catch (e) {
+//     throw new Error(e);
+//   }
+// }
+// export async function requestHabbitAddNew(): Promise<IResponseHabbits> {
+//   try {
+//     const response = await fetch(
+//       //'http://localhost:5000/'
+//       "http://localhost:5000/api/" + "habbits/addnewhabbit",
+//       {
+//         method: "POST",
+//         headers: {
+//           "Access-Control-Allow-Origin": "*",
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+//     return response.json();
+//   } catch (e) {
+//     throw new Error(e);
+//   }
+// }

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, IIntStBgImg } from "../../dto";
-import { changeBgData, changeBgSetting } from "../../reducer/canvasImgBgData";
+import { AppDispatch, IIntStBgImg } from "../../../dto";
+import {
+  changeBgData,
+  changeBgSetting,
+} from "../../../reducer/canvasImgBgData";
+import Color from "./color";
 interface ITools {
   type: "habbitImg";
   width: number;
@@ -57,7 +61,7 @@ const Tools = ({ type, width, height, handlerClick }: ITools) => {
   return (
     <>
       <h3>Panel</h3>
-      <input type="color" onChange={handlerChangeColor} value={setting.color} />
+      <Color type="habbitImg" setting={setting} />
       <br></br>
       <input
         type="range"

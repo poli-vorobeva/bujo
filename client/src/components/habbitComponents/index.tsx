@@ -5,7 +5,7 @@ import Habbits from "./habbits";
 import { Canvas, Images, Background, Tools } from "../canvas/";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IHabbitsData, IUserData } from "../../dto";
-import { getHabbitsData } from "../../reducer/habbitsData";
+import { getHabbitsData, addHabbitsToServer } from "../../reducer/habbitsData";
 import { getImagesBgData } from "../../reducer/canvasImgBgData";
 
 interface IhabbitsState {
@@ -45,6 +45,9 @@ const HabbitTrack = () => {
   const listOfHabbits = useSelector(
     (state: IhabbitsState) => state.habbitsData.data
   );
+  window.onbeforeunload = function () {
+    dispatch(addHabbitsToServer({ data: listOfHabbits }));
+  };
   const deleteComponent = (e: React.MouseEvent<HTMLInputElement>) => {
     setDelete(e.currentTarget.checked);
   };
