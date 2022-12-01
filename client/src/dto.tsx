@@ -78,12 +78,14 @@ export interface IImagesArray {
   isMove?: boolean;
   img?: Promise<HTMLImageElement>;
 }
-export interface IIntStBgImg {
+
+export interface IDataBgCanvas {
+  pictures: IImagesArray[];
+  setting: ISettingImg;
+}
+export interface IStateDataBgCanvas {
   data: {
-    habbitImg?: {
-      pictures: IImagesArray[];
-      setting: ISettingImg;
-    };
+    habbitImg?: IDataBgCanvas;
     ///тут додати фони для інших колекцій
   };
 }

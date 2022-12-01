@@ -10,7 +10,7 @@ export const drawXAxis = (
   ctx.moveTo(width * 0.9, height * 0.9);
   ctx.lineTo(width * 0.89, height * 0.91);
   ctx.lineWidth = 1;
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = "#000000";
   ctx.stroke();
 };
 export const drawYAxis = (
@@ -23,7 +23,7 @@ export const drawYAxis = (
   ctx.lineTo(width * 0.11, height * 0.11);
   ctx.moveTo(width * 0.1, height * 0.1);
   ctx.lineTo(width * 0.09, height * 0.11);
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = "#000000";
   ctx.stroke();
 };
 export const getXAxisData = <T extends object, U extends keyof T>(

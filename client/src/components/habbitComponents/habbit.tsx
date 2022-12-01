@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { AppDispatch, IIntStBgImg } from "../../dto";
+import { AppDispatch, IStateDataBgCanvas } from "../../dto";
 import { changeHabbitsName } from "../../reducer/habbitsData";
 
 interface iHabbit {
@@ -10,7 +10,7 @@ interface iHabbit {
 }
 
 interface IBgImgStore {
-  imgBgData: IIntStBgImg;
+  imgBgData: IStateDataBgCanvas;
 }
 
 interface IInputComponent {
@@ -25,7 +25,7 @@ const InputComponent = styled.input<{ styledComp: IInputComponent }>`
 `;
 
 const Habbit = ({ text, id }: iHabbit) => {
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#000000");
   const stateSetting = useSelector(
     (state: IBgImgStore) => state.imgBgData.data.habbitImg.setting
   );

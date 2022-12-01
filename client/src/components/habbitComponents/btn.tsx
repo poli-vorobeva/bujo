@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import { AppDispatch, IIntStBgImg } from "../../dto";
+import { AppDispatch, IStateDataBgCanvas } from "../../dto";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewHabbit } from "../../reducer/habbitsData";
 
 interface IBgImgStore {
-  imgBgData: IIntStBgImg;
+  imgBgData: IStateDataBgCanvas;
 }
 
 interface IBtncomponent {
@@ -23,7 +23,7 @@ const Btn = () => {
   const handleClick = () => {
     dispatch(addNewHabbit());
   };
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#000000");
   const stateSetting = useSelector(
     (state: IBgImgStore) => state.imgBgData.data.habbitImg.setting
   );

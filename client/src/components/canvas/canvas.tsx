@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { AppDispatch, IImagesArray, IIntStBgImg, ISettingImg } from "../../dto";
+import {
+  AppDispatch,
+  IImagesArray,
+  IStateDataBgCanvas,
+  ISettingImg,
+} from "../../dto";
 import { isShape, loadImage } from "../../utils/canvas";
 import {
+  addImagesToBg,
+  changeImagesInBg,
+  deleteImagesInBg,
   addImagesBgData,
-  changeImagesBgData,
-  deleteImagesBgData,
 } from "../../reducer/canvasImgBgData";
 
 interface IBgImgStore {
-  imgBgData: IIntStBgImg;
+  imgBgData: IStateDataBgCanvas;
 }
 interface ICanvas {
   type: "habbitImg";
@@ -31,15 +37,18 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
   const [images, setImages] = useState<IImagesArray[]>([]);
   const [setting, setSetting] = useState<ISettingImg>({
     opacity: 1,
-    color: "black",
+    color: "#000000",
   });
   const [ctx, setCtx] = useState(null);
   const [imageId, nextImageId] = useState(0);
   const imgInState = useSelector(
     (state: IBgImgStore) => state.imgBgData.data[type]
   );
-
   const dispatch = useDispatch<AppDispatch>();
+  window.onbeforeunload = function () {
+    dispatch(addImagesBgData({ type, data: imgInState }));
+  };
+
   useEffect(() => {
     const canvasObj = canvasRef.current;
     const context = canvasObj.getContext("2d");
@@ -80,7 +89,7 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
         );
       });
     });
-  }, [images]);
+  }, [images, setting]);
 
   const handleDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -92,7 +101,7 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
     const widthImg = e.dataTransfer.getData("width");
     const heightImg = e.dataTransfer.getData("height");
     dispatch(
-      addImagesBgData({
+      addImagesToBg({
         data: {
           id,
           name,
@@ -118,7 +127,7 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
         )
       ) {
         if (isDelete) {
-          dispatch(deleteImagesBgData({ type, data: images[i] }));
+          dispatch(deleteImagesInBg({ type, data: images[i] }));
           return;
         }
         setImages(
@@ -164,7 +173,7 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
             item.id === it.id ? { ...item, isMove: false } : item
           )
         );
-        dispatch(changeImagesBgData({ data: it, type }));
+        dispatch(changeImagesInBg({ data: it, type }));
       }
     });
   };

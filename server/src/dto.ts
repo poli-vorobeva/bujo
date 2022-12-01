@@ -15,7 +15,6 @@ export interface IServerResponseMessage {
 export interface ISettingHabbit {
 	opacity: number;
 	  color: string;
-	  bg: number;
   }
 
 interface ILocation {
@@ -31,4 +30,7 @@ export interface IImagesArray {
 	width: number;
 	height: number;
   }
-  
+  export interface IDataBgCanvas{
+	pictures: IImagesArray[];
+	setting: ISettingHabbit;
+  }

@@ -3,7 +3,7 @@ import { AppDispatch } from "../../../dto";
 import React from "react";
 import { changeBgSetting } from "../../../reducer/canvasImgBgData";
 interface IColor {
-  type: string;
+  type: "habbitImg";
   setting: {
     color: string;
     opacity: number;

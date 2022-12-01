@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IHabbitsData, IUserData } from "../../dto";
-import { changeBgData } from "../../reducer/canvasImgBgData";
+import { changeBackgroundInBg } from "../../reducer/canvasImgBgData";
 interface IImage {
   name: string;
   src: string;
@@ -22,7 +22,7 @@ const BgImage = ({ name, src, type, width, height }: IImage) => {
   const handleClick = () => {
     console.log("click");
     dispatch(
-      changeBgData({
+      changeBackgroundInBg({
         data: {
           id: "0",
           name,

@@ -137,7 +137,7 @@ export const dataUsers = [
         pictures: imgBg,
         setting: {
           opacity:1,
-          color: 'black',
+          color: '#000000',
         }
       }
     },
@@ -151,7 +151,7 @@ export const dataUsers = [
         pictures: imgBg,
         setting: {
           opacity:1,
-          color: 'black',
+          color: '#000000',
         }
       },
     },

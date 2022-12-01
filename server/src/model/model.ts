@@ -1,5 +1,5 @@
 
-import { IImagesArray } from '../dto';
+import { IDataBgCanvas, IImagesArray } from '../dto';
 import auth from '../fakeData/auth';
 import {dataUsers, typeDataForChart} from '../fakeData/canvasChart';
 import { IDataHabbits } from '../fakeData/habbits';
@@ -51,36 +51,39 @@ export default class Model {
         return this.habbitsData
     }
     getImgBg(email:string,type:string){
+        if(this.imgBg.length){
+            return this.imgBg[type];
+        }
         const user= this.data.find(it=>it.email===email);
         if(user){
             this.imgBg = user.dataImgBg;
             return {data: this.imgBg[type], type: type}
         }
-        return [];
+        return []; 
     }
 
-    addImgBg(img:IImagesArray,type:string){ 
-       
-        this.imgBg[type].pictures.push(img);
+    addImgBg(data:IDataBgCanvas,type:string){ 
+        
+        this.imgBg[type] = data;
         return {data: this.imgBg[type], type: type};
     }
 
-    changeImgBg(img:IImagesArray,type:string){
-        this.imgBg[type].pictures.find(it=>it.id ===img.id).coordinate = img.coordinate;
-        return {data: this.imgBg[type], type: type};
-    }
-    deleteImgBg(img:IImagesArray,type:string){
-        this.imgBg[type].pictures = this.imgBg[type].pictures.filter(it=>it.id !== img.id)
-        return {data: this.imgBg[type], type: type};
-    }
-    changeBg(img:IImagesArray,type:string) {
-        this.imgBg[type].pictures[0] = img;
-        return {data: this.imgBg[type], type: type};
-    }
-    changeSetting(setting: {opasity: number, color: string}, type:string){
-        this.imgBg[type].setting = setting;
-        return {data: this.imgBg[type], type: type};
-    }
+    // changeImgBg(img:IImagesArray,type:string){
+    //     this.imgBg[type].pictures.find(it=>it.id ===img.id).coordinate = img.coordinate;
+    //     return {data: this.imgBg[type], type: type};
+    // }
+    // deleteImgBg(img:IImagesArray,type:string){
+    //     this.imgBg[type].pictures = this.imgBg[type].pictures.filter(it=>it.id !== img.id)
+    //     return {data: this.imgBg[type], type: type};
+    // }
+    // changeBg(img:IImagesArray,type:string) {
+    //     this.imgBg[type].pictures[0] = img;
+    //     return {data: this.imgBg[type], type: type};
+    // }
+    // changeSetting(setting: {opasity: number, color: string}, type:string){
+    //     this.imgBg[type].setting = setting;
+    //     return {data: this.imgBg[type], type: type};
+    // }
 
     checkUsers(email: string, password: string){
         const user = this.users.find(it=>it.email===email&&it.password===password);

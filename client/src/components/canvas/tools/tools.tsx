@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, IIntStBgImg } from "../../../dto";
+import { AppDispatch, IStateDataBgCanvas } from "../../../dto";
 import {
-  changeBgData,
+  changeBackgroundInBg,
   changeBgSetting,
 } from "../../../reducer/canvasImgBgData";
 import Color from "./color";
@@ -13,12 +13,12 @@ interface ITools {
   handlerClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
 interface IBgImgStore {
-  imgBgData: IIntStBgImg;
+  imgBgData: IStateDataBgCanvas;
 }
 
 const Tools = ({ type, width, height, handlerClick }: ITools) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [setting, setSetting] = useState({ color: "black", opacity: 1 });
+  const [setting, setSetting] = useState({ color: "#000000", opacity: 1 });
   const stateSetting = useSelector(
     (state: IBgImgStore) => state.imgBgData.data.habbitImg.setting
   );
@@ -28,7 +28,7 @@ const Tools = ({ type, width, height, handlerClick }: ITools) => {
 
   const handlerDeleteBg = () => {
     dispatch(
-      changeBgData({
+      changeBackgroundInBg({
         type,
         data: {
           id: "0",

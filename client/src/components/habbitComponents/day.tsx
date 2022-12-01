@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { IIntStBgImg } from "../../dto";
+import { IStateDataBgCanvas } from "../../dto";
 
 interface IDay {
   n: number;
 }
 interface IBgImgStore {
-  imgBgData: IIntStBgImg;
+  imgBgData: IStateDataBgCanvas;
 }
 
 interface IDayComponent {
@@ -22,7 +22,7 @@ const DayComponent = styled.span<{ styledComp: IDayComponent }>`
 `;
 
 const Day = ({ n }: IDay) => {
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#000000");
   const stateSetting = useSelector(
     (state: IBgImgStore) => state.imgBgData.data.habbitImg.setting
   );

@@ -108,7 +108,7 @@ const AuthForm = (props: ITextForm) => {
             placeholder=""
           />
 
-          <Button bg="pink" textColor="black" type="submit">
+          <Button bg="pink" textColor="#000000" type="submit">
             {" "}
             {props.buttonName}{" "}
           </Button>

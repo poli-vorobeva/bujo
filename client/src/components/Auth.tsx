@@ -184,7 +184,10 @@ const SignupForm = (props: ITextForm) => {
             placeholder=""
           />
 
-          <Button styleComp={{ bg: "pink", textColor: "black" }} type="submit">
+          <Button
+            styleComp={{ bg: "pink", textColor: "#000000" }}
+            type="submit"
+          >
             {props.buttonName}
           </Button>
         </TextFormStyled>
@@ -288,7 +291,7 @@ const Auth = () => {
         <ChangeForm
           mode={mode}
           buttonTitle={prop.changeButtonName}
-          style={{ textColor: "black", bg: "pink" }}
+          style={{ textColor: "#000000", bg: "pink" }}
           handleSubmit={handleChangeButton}
           title={prop.changeTitle}
         />

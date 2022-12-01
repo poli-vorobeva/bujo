@@ -1,4 +1,4 @@
-import { ISettingHabbit } from "../dto";
+
 
 interface HabbitData {
     habbitName: string;
