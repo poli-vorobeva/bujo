@@ -11,6 +11,7 @@ interface ITools {
 interface IBgImgStore {
   imgBgData: IIntStBgImg;
 }
+
 const Tools = ({ type, width, height, handlerClick }: ITools) => {
   const dispatch = useDispatch<AppDispatch>();
   const [setting, setSetting] = useState({ color: "black", opacity: 1 });

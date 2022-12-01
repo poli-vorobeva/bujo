@@ -1,12 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+
 import styled from "styled-components";
-import { AppDispatch, IHabbit } from "../../dto";
-import {
-  changeHabbitsName,
-  changeHabbitsInput,
-  addNewHabbit,
-} from "../../reducer/habbitsData";
+import { IHabbit } from "../../dto";
+
 import Habbit from "./habbit";
 import Input from "./input";
 import Btn from "./btn";
@@ -28,41 +24,13 @@ const HabbitContainer = styled.div<{ styledComp: IHabbitContainer }>`
 `;
 
 const Habbits = ({ listOfHabbits, width }: IHabbits) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const handleClickCheckBox = (
-    idHabbit: string,
-    idEl: string,
-    value: boolean
-  ) => {
-    dispatch(changeHabbitsInput({ idHabbit, idEl, value }));
-  };
-  const handleInputHabbitName = (idHabbit: string, value: string) => {
-    console.log(value);
-    dispatch(changeHabbitsName({ idHabbit, value }));
-  };
-  const handleClickAddHabbit = () => {
-    dispatch(addNewHabbit());
-  };
   const widthHabbit = (width - 100) / 21;
   const habbits = listOfHabbits.slice().map((it) => {
     return (
       <HabbitContainer key={it.habbitId} styledComp={{ width: widthHabbit }}>
-        <Habbit
-          text={it.habbitName}
-          key={it.habbitId}
-          handleInput={(e) =>
-            handleInputHabbitName(it.habbitId, e.currentTarget.value)
-          }
-        />
+        <Habbit text={it.habbitName} key={it.habbitId} id={it.habbitId} />
         {it.data.map((el, ind) => (
-          <Input
-            id={`${it.habbitId}-${ind}`}
-            check={el}
-            key={ind}
-            handleClick={() =>
-              handleClickCheckBox(it.habbitId, String(ind), !el)
-            }
-          />
+          <Input habbitId={it.habbitId} id={String(ind)} check={el} key={ind} />
         ))}
       </HabbitContainer>
     );
@@ -70,7 +38,7 @@ const Habbits = ({ listOfHabbits, width }: IHabbits) => {
   return (
     <>
       {habbits}
-      <Btn handleClick={handleClickAddHabbit} />
+      <Btn />
     </>
   );
 };

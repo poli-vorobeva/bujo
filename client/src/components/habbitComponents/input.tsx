@@ -1,9 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { AppDispatch } from "../../dto";
+import { changeHabbitsInput } from "../../reducer/habbitsData";
 interface ICheck {
   check: boolean;
   id: string;
-  handleClick: () => void;
+  habbitId: string;
+  // handleClick: () => void;
 }
 
 const InputComponent = styled.input`
@@ -44,14 +48,24 @@ const LabelComponent = styled.label`
   width: 60%;
   height: 50%;
 `;
-const Input = ({ check, id, handleClick }: ICheck) => {
+const Input = ({ check, id, habbitId }: ICheck) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    dispatch(
+      changeHabbitsInput({
+        idHabbit: habbitId,
+        idEl: id,
+        value: e.currentTarget.checked,
+      })
+    );
+  };
   return (
     <InputContainer>
-      <LabelComponent htmlFor={id}>
+      <LabelComponent htmlFor={`${habbitId}-${id}`}>
         <InputComponent
           type="checkbox"
           name={id}
-          id={id}
+          id={`${habbitId}-${id}`}
           defaultChecked={check}
           onClick={handleClick}
         />

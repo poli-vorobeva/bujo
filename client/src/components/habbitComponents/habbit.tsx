@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { IIntStBgImg } from "../../dto";
+import { AppDispatch, IIntStBgImg } from "../../dto";
+import { changeHabbitsName } from "../../reducer/habbitsData";
 
 interface iHabbit {
   text: string;
-  handleInput: (e: React.FormEvent<HTMLInputElement>) => void;
+  id: string;
 }
 
 interface IBgImgStore {
@@ -23,14 +24,19 @@ const InputComponent = styled.input<{ styledComp: IInputComponent }>`
   color: ${({ styledComp }) => styledComp.color};
 `;
 
-const Habbit = ({ text, handleInput }: iHabbit) => {
+const Habbit = ({ text, id }: iHabbit) => {
   const [color, setColor] = useState("black");
   const stateSetting = useSelector(
     (state: IBgImgStore) => state.imgBgData.data.habbitImg.setting
   );
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     setColor(stateSetting.color);
   }, [stateSetting]);
+
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+    dispatch(changeHabbitsName({ idHabbit: id, value: e.currentTarget.value }));
+  };
   return (
     <>
       <InputComponent
