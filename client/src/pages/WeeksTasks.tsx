@@ -1,32 +1,39 @@
 import React, {useState} from "react";
-import TasksList, {
-	tTask,
-	tTasksList,
-} from "../components/weeksTasksComponents/TasksList";
-import SubDivideTasks from "../components/weeksTasksComponents/subTasks/SubDivideTasks";
-import TaskForm from "../components/weeksTasksComponents/TaskForm";
-
+import {tTask} from "../components/NewProposals/TasksList";
+import TaskForm, {tTaskSubmit} from "../components/NewProposals/TaskForm";
+import Calendar from "../components/CalendarComponents/Calendar";
+const mock={purpose:'jump',goal:6, times:'times', per:'Day', repeat: {main:'Daily',sub:['Monday','Sunday']}}
 const WeeksTasks = () => {
-	const [tasksList, setTasksList] = useState([
-		{task: "one", category: "study"},
-		{task: "two", category: "study"},
-		{task: "three", category: "study"},
-	]);
-	//
-	const [isSubDivide, setSubDivide] = useState(false);
-	const onAddTask = (task: tTask) => {
-		setTasksList((prev) => [...prev, task]);
-	};
-	const onSubDivided = (data: Record<string, string>) => {
-		console.log(data);
-	};
-	const showTask=()=>{
-		console.log("TASK")
+	const [tasksList, setTasksList] = useState([mock]);
+	const [showCalendar, setShowCalendar] = useState(false)
+	const addTask = (data: tTaskSubmit) => {
+		setTasksList(prev => {
+			const newAr = prev.slice()
+			newAr.push(data)
+			return newAr
+		})
 	}
 	return (
 		<div>
-			<TaskForm/>
-			<button onClick={() =>showTask()}>Ready</button>
+			<TaskForm onSubmitForm={(data) => {
+				addTask(data)
+			}}/>
+			<ul>
+				{
+					tasksList.map((t: tTaskSubmit) => {
+						return (
+							<li>
+								{`${t.purpose}--${t.goal}--${t.times}${t.per}
+								--${t.repeat.main}(${t.repeat.sub.toString()})`}
+							</li>
+						)
+					})
+				}
+			</ul>
+			{/*{*/}
+			{/*  showCalendar &&*/}
+			<  Calendar/>
+			{/*}*/}
 		</div>
 	);
 };
