@@ -45,13 +45,16 @@ const HabbitTrack = () => {
   const listOfHabbits = useSelector(
     (state: IhabbitsState) => state.habbitsData.data
   );
-  window.onbeforeunload = function () {
-    dispatch(addHabbitsToServer({ data: listOfHabbits }));
-  };
+
+  useEffect(() => {
+    if (listOfHabbits.habbits.length) {
+      dispatch(addHabbitsToServer({ data: listOfHabbits }));
+    }
+  }, [listOfHabbits]);
+
   const deleteComponent = (e: React.MouseEvent<HTMLInputElement>) => {
     setDelete(e.currentTarget.checked);
   };
-  console.log(listOfHabbits);
   return (
     <>
       <MainContainer>

@@ -12,13 +12,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   data: {
     days: 21,
-    habbits: [
-      {
-        habbitName: "",
-        habbitId: "fvfvf",
-        data: [],
-      },
-    ],
+    habbits: [],
   },
 };
 
@@ -119,12 +113,10 @@ const habbitsSlice = createSlice({
       builder.addCase(getHabbitsData.rejected, (state, action) => {
         console.log("err");
       });
-    // builder.addCase(changeHabbitsName.fulfilled, (state, action) => {
-    //   state.data = action.payload.data;
-    // }),
-    //   builder.addCase(changeHabbitsName.rejected, (state, action) => {
-    //     console.log("err");
-    //   });
+    builder.addCase(addHabbitsToServer.fulfilled, (state, action) => {}),
+      builder.addCase(addHabbitsToServer.rejected, (state, action) => {
+        console.log("err");
+      });
     // builder.addCase(changeHabbitsInput.fulfilled, (state, action) => {
     //   state.data = action.payload.data;
     // }),

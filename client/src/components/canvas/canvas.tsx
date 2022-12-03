@@ -14,6 +14,7 @@ import {
   deleteImagesInBg,
   addImagesBgData,
 } from "../../reducer/canvasImgBgData";
+import { useLocation } from "react-router-dom";
 
 interface IBgImgStore {
   imgBgData: IStateDataBgCanvas;
@@ -41,13 +42,24 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
   });
   const [ctx, setCtx] = useState(null);
   const [imageId, nextImageId] = useState(0);
+  const dispatch = useDispatch<AppDispatch>();
   const imgInState = useSelector(
     (state: IBgImgStore) => state.imgBgData.data[type]
   );
-  const dispatch = useDispatch<AppDispatch>();
-  window.onbeforeunload = function () {
+  useEffect(() => {
+    if (!imgInState.pictures.length) {
+      return;
+    }
+    setImages(imgInState.pictures);
+    setSetting(imgInState.setting);
+    const lastId = imgInState.pictures[imgInState.pictures.length - 1];
+    nextImageId(+lastId.id + 1);
     dispatch(addImagesBgData({ type, data: imgInState }));
-  };
+  }, [imgInState]);
+
+  // window.onbeforeunload = function () {
+  //   dispatch(addImagesBgData({ type, data: imgInState }));
+  // };
 
   useEffect(() => {
     const canvasObj = canvasRef.current;
@@ -75,7 +87,7 @@ const Canvas = ({ type, width, height, isDelete }: ICanvas) => {
     if (!ctx) {
       return;
     }
-    ctx.globalAlpha = setting.opacity;
+    ctx.globalAlpha = imgInState.setting.opacity;
     const src = images.map((it) => loadImage(it.src));
     Promise.all(src).then((img) => {
       ctx.clearRect(0, 0, width, height);

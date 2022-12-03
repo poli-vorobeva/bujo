@@ -166,8 +166,8 @@ const canvasImBgSlice = createSlice({
         console.log("err");
       });
     builder.addCase(addImagesBgData.fulfilled, (state, action) => {
-      const type = action.payload.type;
-      state.data[type] = action.payload.data;
+      // const type = action.payload.type;
+      // state.data[type] = action.payload.data;
     }),
       builder.addCase(addImagesBgData.rejected, (state, action) => {
         console.log("err");

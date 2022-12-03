@@ -10,8 +10,12 @@ import Layout from "./components/Layout";
 import WeeksTasks from "./pages/WeeksTasks";
 import NotFountPage from "./pages/NotFoundPage";
 import HabbitTrack from "./components/habbitComponents";
-interface IPage {
-  activePage: { page: string };
+import { AppDispatch, IHabbitsData, IStateDataBgCanvas } from "./dto";
+// interface IPage {
+//   activePage: { page: string };
+// }
+interface IBgImgStore {
+  imgBgData: IStateDataBgCanvas;
 }
 export const App = () => {
   //todo при загруке сразу со страницы с канвасом- ошибки

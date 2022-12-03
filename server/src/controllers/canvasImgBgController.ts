@@ -18,7 +18,7 @@ exports.get = (req: Request, res: Response) => {
 }
 exports.add = (req: Request, res: Response) => {
 	try {
-        console.log('addbgImg')
+       // console.log('addbgImg')
 		const userData = model.addImgBg(req.body.data, req.body.type)
 		res.status(201).json({status: 'ok', data: userData})
 

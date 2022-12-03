@@ -6,6 +6,9 @@ import {
   changeBgSetting,
 } from "../../../reducer/canvasImgBgData";
 import Color from "./color";
+import Opacity from "./opacity";
+import DeleteImage from "./deleteImage";
+import DeleteBg from "./deleteBg";
 interface ITools {
   type: "habbitImg";
   width: number;
@@ -61,20 +64,13 @@ const Tools = ({ type, width, height, handlerClick }: ITools) => {
   return (
     <>
       <h3>Panel</h3>
-      <Color type="habbitImg" setting={setting} />
+      <Color type={type} setting={setting} />
       <br></br>
-      <input
-        type="range"
-        min="0"
-        max="1"
-        step="0.1"
-        onChange={handlerChangeOpasicity}
-        value={setting.opacity}
-      />
+      <Opacity type={type} setting={setting} />
+
       <br></br>
-      <input type="checkbox" onClick={handlerClick} />
-      Delete component<br></br>
-      <button onClick={handlerDeleteBg}>Delete bg</button>
+      <DeleteImage handlerClick={handlerClick} />
+      <DeleteBg type={type} width={width} height={height} />
     </>
   );
 };
