@@ -5,7 +5,7 @@ export async function test(): Promise<any> {
   try {
     const response = await fetch(
       //'http://localhost:5000/'
-      "http://localhost:3000/" + "photos",
+      "api/photos",
       {
         method: "POST",
         headers: {
